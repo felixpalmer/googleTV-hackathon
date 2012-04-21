@@ -38,7 +38,30 @@ public class ParticipantView extends LinearLayout
     mScoreTextView = (TextView)findViewById(R.id.score_tv);
 
     mImageView.setBackgroundColor(0xff005500); // So we can see it for now
-    mScoreTextView.setText("Participant");
+    setScore(0);
   }
 
+  ImageView getImageView()
+  {
+    return mImageView;
+  }
+
+  /**
+   * Set the score to this amount
+   * @param score
+   */
+  void setScore(int score)
+  {
+    mScore = score;
+    mScoreTextView.setText(Integer.toString(score));
+  }
+
+  /**
+   * Increment the score by this amount
+   * @param score
+   */
+  void addScore(int score)
+  {
+    setScore(score + mScore);
+  }
 }
