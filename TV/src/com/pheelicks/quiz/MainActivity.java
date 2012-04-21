@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +19,9 @@ public class MainActivity extends Activity {
   private TextView mQuestionTextView;
   private List<Button> mOptionButtons;
   private List<Question> mQuestions;
+  private int mCurrentQuestion;
+  private Handler mHandler = new Handler();
+  private final static int QUESTION_TIMER = 5000; // 5 seconds between questions
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,17 @@ public class MainActivity extends Activity {
     setContentView(R.layout.quiz);
 
     findUIElements();
-    setupUI();
+    mQuestions = loadQuestions();
+    if(mQuestions == null)
+    {
+      Log.e(TAG, "Could not load quiz questions, exiting");
+      finish();
+      return;
+    }
+
+    // Show first question
+    displayQuestion(mQuestions.get(mCurrentQuestion));
+    mHandler.postDelayed(mNextQuestion, 5000);
   }
 
   private void findUIElements()
@@ -38,22 +52,13 @@ public class MainActivity extends Activity {
     mOptionButtons.add((Button)findViewById(R.id.option_4));
   }
 
-  private void setupUI()
+  private void displayQuestion(Question q)
   {
-    mQuestions = loadQuestions();
-    if(mQuestions == null)
-    {
-      Log.e(TAG, "Could not load quiz questions, exiting");
-      finish();
-      return;
-    }
-
-    Question firstQuestion = mQuestions.get(0);
-    mQuestionTextView.setText(firstQuestion.title);
-    mOptionButtons.get(0).setText(firstQuestion.correctAnswer);
-    mOptionButtons.get(1).setText(firstQuestion.wrongAnswers.get(0));
-    mOptionButtons.get(2).setText(firstQuestion.wrongAnswers.get(1));
-    mOptionButtons.get(3).setText(firstQuestion.wrongAnswers.get(2));
+    mQuestionTextView.setText(q.title);
+    mOptionButtons.get(0).setText(q.correctAnswer);
+    mOptionButtons.get(1).setText(q.wrongAnswers.get(0));
+    mOptionButtons.get(2).setText(q.wrongAnswers.get(1));
+    mOptionButtons.get(3).setText(q.wrongAnswers.get(2));
   }
 
   private List<Question> loadQuestions()
@@ -76,4 +81,16 @@ public class MainActivity extends Activity {
 
     return null;
   }
+
+  private Runnable mNextQuestion = new Runnable()
+  {
+    @Override
+    public void run()
+    {
+      // Increment current question and show next
+      mCurrentQuestion = (mCurrentQuestion + 1) % mQuestions.size(); // For now loop around
+      displayQuestion(mQuestions.get(mCurrentQuestion));
+      mHandler.postDelayed(mNextQuestion, 5000);
+    }
+  };
 }

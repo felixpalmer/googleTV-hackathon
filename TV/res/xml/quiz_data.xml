@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <questions>
   <question>
-    <title>Favorite colour</title>
+    <title>Favorite colour?</title>
     <correct>Blue</correct>
     <wrong>Green</wrong>
     <wrong>Red</wrong>
     <wrong>Yellow</wrong>
+  </question>
+
+  <question>
+    <title>Where is best?</title>
+    <correct>San Francisco</correct>
+    <wrong>Mountain View</wrong>
+    <wrong>Palo Alto</wrong>
+    <wrong>San Jose</wrong>
+  </question>
+
+  <question>
+    <title>Which would you eat?</title>
+    <correct>Bat eyes</correct>
+    <wrong>Pig trotters</wrong>
+    <wrong>Otter ears</wrong>
+    <wrong>McDonalds</wrong>
   </question>
 </questions>
