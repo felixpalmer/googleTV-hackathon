@@ -18,12 +18,44 @@
         <!-- Question textview -->
 
         <TextView
-            style="@style/QuestionText"
             android:id="@+id/question_tv"
+            style="@style/QuestionText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp" >
         </TextView>
+
+        <!-- Layout to house options and picture -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <!-- Layout to house options, will take up a third of the width -->
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.33"
+                android:background="#ff112211" >
+            </LinearLayout>
+
+            <!-- Picture, will take up two thirds of the width -->
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.67"
+                android:background="#ff221111" >
+            </ImageView>
+        </LinearLayout>
+
+        <!-- Layout to house participants -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
