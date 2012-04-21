@@ -7,6 +7,7 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -26,6 +27,16 @@ public class MainActivity extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // Launch tcp test
+    if(true)
+    {
+      Intent intent = new Intent(this, TestTCPActivity.class);
+      startActivity(intent);
+      finish();
+      return;
+    }
+
     setContentView(R.layout.quiz);
 
     findUIElements();

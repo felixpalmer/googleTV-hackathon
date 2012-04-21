@@ -18,6 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TestTCPActivity" >
+        </activity>
     </application>
 
     <uses-feature
@@ -26,5 +28,7 @@
     <uses-feature
         android:name="com.google.android.tv"
         android:required="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
