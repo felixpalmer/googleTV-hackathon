@@ -1,13 +1,20 @@
 package com.pheelicks.quiz;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -24,18 +31,19 @@ public class MainActivity extends Activity {
   private Handler mHandler = new Handler();
   private final static int QUESTION_TIMER = 5000; // 5 seconds between questions
 
+  private TextView serverStatus;
+
+  // default ip
+  public static String SERVERIP = "192.168.51.177";
+
+  // designate a port
+  public static final int SERVERPORT = 8080;
+
+  private ServerSocket serverSocket;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    // Launch tcp test
-    if(true)
-    {
-      Intent intent = new Intent(this, ServerActivity.class);
-      startActivity(intent);
-      finish();
-      return;
-    }
 
     setContentView(R.layout.quiz);
 
@@ -51,6 +59,14 @@ public class MainActivity extends Activity {
     // Show first question
     displayQuestion(mQuestions.get(mCurrentQuestion));
     mHandler.postDelayed(mNextQuestion, 5000);
+
+    // Setup server thread
+    serverStatus = (TextView) findViewById(R.id.server_status);
+
+    SERVERIP = getLocalIpAddress();
+
+    Thread fst = new Thread(new ServerThread());
+    fst.start();
   }
 
   private void findUIElements()
@@ -104,4 +120,100 @@ public class MainActivity extends Activity {
       mHandler.postDelayed(mNextQuestion, 5000);
     }
   };
+
+
+  // Server code
+  public class ServerThread implements Runnable {
+
+    @Override
+    public void run() {
+        try {
+            if (SERVERIP != null) {
+              mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        serverStatus.setText("Listening on IP: " + SERVERIP);
+                    }
+                });
+                serverSocket = new ServerSocket(SERVERPORT);
+                while (true) {
+                    // listen for incoming clients
+                    Socket client = serverSocket.accept();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            serverStatus.setText("Connected.");
+                        }
+                    });
+
+                    try {
+                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        String line = null;
+                        while ((line = in.readLine()) != null) {
+                            Log.d("ServerActivity", line);
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // do whatever you want to the front end
+                                    // this is where you can be creative
+                                }
+                            });
+                        }
+                        break;
+                    } catch (Exception e) {
+                      mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                serverStatus.setText("Oops. Connection interrupted. Please reconnect your phones.");
+                            }
+                        });
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+              mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        serverStatus.setText("Couldn't detect internet connection.");
+                    }
+                });
+            }
+        } catch (Exception e) {
+          mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    serverStatus.setText("Error");
+                }
+            });
+            e.printStackTrace();
+        }
+    }
+}
+
+// gets the ip address of your phone's network
+private String getLocalIpAddress() {
+    try {
+        for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+            NetworkInterface intf = en.nextElement();
+            for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                InetAddress inetAddress = enumIpAddr.nextElement();
+                if (!inetAddress.isLoopbackAddress()) { return inetAddress.getHostAddress().toString(); }
+            }
+        }
+    } catch (SocketException ex) {
+        Log.e("ServerActivity", ex.toString());
+    }
+    return null;
+}
+
+@Override
+protected void onStop() {
+    super.onStop();
+    try {
+         // make sure you close the socket upon exiting
+         serverSocket.close();
+     } catch (IOException e) {
+         e.printStackTrace();
+     }
+}
 }

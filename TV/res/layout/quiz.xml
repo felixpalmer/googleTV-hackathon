@@ -15,6 +15,15 @@
         android:background="#ff111122"
         android:orientation="vertical" >
 
+        <!-- Will remove -->
+        
+        <TextView
+            android:id="@+id/server_status"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:textSize="6dp" >
+        </TextView>
+
         <!-- Question textview -->
 
         <TextView
