@@ -14,14 +14,19 @@
         android:id="@+id/connect_phones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Connect" >
+    </Button>
+    
+    <EditText
+        android:id="@+id/message_to_send"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Hi!" />
+
+     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="sendMessagePressed"
         android:text="Send message" >
     </Button>
-
-    <TextView
-        android:id="@+id/tcp_log"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-    </TextView>
-
 </LinearLayout>

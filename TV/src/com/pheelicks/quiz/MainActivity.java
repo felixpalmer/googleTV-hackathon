@@ -44,9 +44,9 @@ public class MainActivity extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     setContentView(R.layout.quiz);
 
+    Log.d(TAG, "Started TV quiz");
     findUIElements();
     mQuestions = loadQuestions();
     if(mQuestions == null)

@@ -24,6 +24,7 @@ public class ClientActivity extends Activity {
 
   private boolean connected = false;
   private static final int SERVERPORT = 8080;
+  private PrintWriter mOutWriter;
 
   private Handler handler = new Handler();
 
@@ -35,6 +36,17 @@ public class ClientActivity extends Activity {
       serverIp = (EditText) findViewById(R.id.server_ip);
       connectPhones = (Button) findViewById(R.id.connect_phones);
       connectPhones.setOnClickListener(connectListener);
+  }
+
+  public void sendMessagePressed(View view)
+  {
+    EditText message = (EditText) findViewById(R.id.message_to_send);
+    if(mOutWriter != null)
+    {
+      Log.d("ClientActivity", "C: Sending command.");
+      mOutWriter.println(message.getText());
+      Log.d("ClientActivity", "C: Sent.");
+    }
   }
 
   private OnClickListener connectListener = new OnClickListener() {
@@ -61,12 +73,9 @@ public class ClientActivity extends Activity {
               connected = true;
               while (connected) {
                   try {
-                      Log.d("ClientActivity", "C: Sending command.");
-                      PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket
+                      mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket
                                   .getOutputStream())), true);
                           // where you issue the commands
-                          out.println("Hey Server!");
-                          Log.d("ClientActivity", "C: Sent.");
                   } catch (Exception e) {
                       Log.e("ClientActivity", "S: Error", e);
                   }
