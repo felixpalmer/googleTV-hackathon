@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="QuestionText">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:shadowColor">#666666</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1.0</item>
+        <item name="android:shadowRadius">0.1</item>
+        <item name="android:textSize">36dp</item>
+    </style>
+
+</resources>

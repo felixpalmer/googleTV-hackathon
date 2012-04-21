@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff000000"
+    android:orientation="vertical"
+    android:padding="35dp" >
+
+    <!-- Safe area defined where all content should go. Anything outside may be clipped -->
+
+    <LinearLayout
+        android:id="@+id/safe_area"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ff111122"
+        android:orientation="vertical" >
+
+        <!-- Question textview -->
+
+        <TextView
+            style="@style/QuestionText"
+            android:id="@+id/question_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+        </TextView>
+    </LinearLayout>
+
+</FrameLayout>
