@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+  private static final String TAG = "MainActivity";
+
   private TextView mQuestionTextView;
   private List<Button> mOptionButtons;
 

@@ -29,7 +29,8 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="0dp"
+            android:layout_weight="1" >
 
             <!-- Layout to house options, will take up a third of the width -->
 
@@ -37,8 +38,8 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.33"
-                android:orientation="vertical"
-                android:background="#ff112211" >
+                android:background="#ff112211"
+                android:orientation="vertical" >
 
                 <Button
                     android:id="@+id/option_1"
@@ -83,11 +84,41 @@
             </ImageView>
         </LinearLayout>
 
-        <!-- Layout to house participants -->
+        <!-- Layout to house participants, TODO don't hardcode height!!! -->
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp" >
+
+            <com.pheelicks.quiz.ParticipantView
+                android:id="@+id/pariticipant_1"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.25" >
+            </com.pheelicks.quiz.ParticipantView>
+
+            <com.pheelicks.quiz.ParticipantView
+                android:id="@+id/pariticipant_2"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.25" >
+            </com.pheelicks.quiz.ParticipantView>
+
+            <com.pheelicks.quiz.ParticipantView
+                android:id="@+id/pariticipant_3"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.25" >
+            </com.pheelicks.quiz.ParticipantView>
+
+            <com.pheelicks.quiz.ParticipantView
+                android:id="@+id/pariticipant_4"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.25" >
+            </com.pheelicks.quiz.ParticipantView>
         </LinearLayout>
     </LinearLayout>
 
