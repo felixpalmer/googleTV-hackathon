@@ -39,7 +39,7 @@ public class TestTCPActivity extends Activity
     @Override
     protected Integer doInBackground(Integer... port) {
       try {
-        Socket s = new Socket(HOST, 12345);
+        Socket s = new Socket(HOST, 8080);
 
         //outgoing stream redirect to socket
         OutputStream out = s.getOutputStream();

@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
 
         // Launch tcp test
-        Intent intent = new Intent(this, TestTCPActivity.class);
+        Intent intent = new Intent(this, ClientActivity.class);
         startActivity(intent);
     }
 }

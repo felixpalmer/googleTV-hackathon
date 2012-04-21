@@ -35,7 +35,7 @@ public class TestTCPActivity extends Activity
     protected Integer doInBackground(Integer... port) {
       try {
         Boolean end = false;
-        ServerSocket ss = new ServerSocket(12345);
+        ServerSocket ss = new ServerSocket(8080);
         while(!end){
           //Server is waiting for client here, if needed
           Socket s = ss.accept();

@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     // Launch tcp test
     if(true)
     {
-      Intent intent = new Intent(this, TestTCPActivity.class);
+      Intent intent = new Intent(this, ServerActivity.class);
       startActivity(intent);
       finish();
       return;
