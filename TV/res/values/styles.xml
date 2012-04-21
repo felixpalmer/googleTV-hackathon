@@ -10,4 +10,13 @@
         <item name="android:textSize">36dp</item>
     </style>
 
+    <style name="OptionButton">
+        <item name="android:textColor">#ccccff</item>
+        <item name="android:shadowColor">#666666</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1.0</item>
+        <item name="android:shadowRadius">0.1</item>
+        <item name="android:textSize">28dp</item>
+    </style>
+
 </resources>
