@@ -26,6 +26,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,7 +47,7 @@ public class QuizActivity extends Activity {
   private Handler mHandler = new Handler();
 
   private long mQuestionStartTime;
-  private final static int QUESTION_TIMER = 15; // 15 seconds between questions
+  private final static int QUESTION_TIMER = 5; // 5 seconds between questions
 
   // default ip
   public static String SERVERIP = "192.168.51.177";
@@ -111,10 +113,16 @@ public class QuizActivity extends Activity {
   private void displayQuestion(Question q)
   {
     mQuestionTextView.setText(q.title);
-    mOptionButtons.get(0).setText(q.answers.get(0));
-    mOptionButtons.get(1).setText(q.answers.get(1));
-    mOptionButtons.get(2).setText(q.answers.get(2));
-    mOptionButtons.get(3).setText(q.answers.get(3));
+    for(int i = 0; i < 4; i++)
+    {
+      mOptionButtons.get(i).setText(q.answers.get(i));
+
+      Animation anim = AnimationUtils.loadAnimation(this, R.anim.option_out);
+      anim.setStartOffset(i*100);
+      anim.setRepeatMode(Animation.REVERSE);
+      anim.setRepeatCount(2);
+      mOptionButtons.get(i).setAnimation(anim);
+    }
 
     int imageResId = getResources().getIdentifier(q.image, "drawable", getPackageName());
     if(imageResId == 0)
@@ -125,6 +133,8 @@ public class QuizActivity extends Activity {
     {
       mImageView.setImageResource(imageResId);
     }
+
+
   }
 
   private List<Question> loadQuestions()
