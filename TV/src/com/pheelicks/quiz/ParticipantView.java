@@ -3,6 +3,9 @@ package com.pheelicks.quiz;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,15 +59,6 @@ public class ParticipantView extends LinearLayout
     mScoreTextView.setVisibility(View.VISIBLE);
   }
 
-  /**
-   * Increment the score by this amount
-   * @param score
-   */
-  void addScore(int score)
-  {
-    setScore(score + mScore);
-  }
-
   public void setPlayer(Player player)
   {
     mPlayer = player;
@@ -76,9 +70,14 @@ public class ParticipantView extends LinearLayout
    * Show which option the player picked. To remove the choice update the score
    * @param choice
    */
-  void setChoice(int choice)
+  void showChoice()
   {
-    switch(choice)
+    if(mPlayer == null || mPlayer.currentChoice == -1)
+    {
+      return;
+    }
+
+    switch(mPlayer.currentChoice)
     {
       case 0:
         mChoiceImageView.setImageResource(R.drawable.circle_a);
@@ -98,5 +97,26 @@ public class ParticipantView extends LinearLayout
 
     mChoiceImageView.setVisibility(View.VISIBLE);
     mScoreTextView.setVisibility(View.GONE);
+    mPlayer.currentChoice = -1;
+    mPlayer.totalScore += mPlayer.questionScore;
+    mPlayer.questionScore = 0;
+
+    Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+    fade.setAnimationListener(new AnimationListener()
+    {
+      @Override
+      public void onAnimationStart(Animation animation){}
+
+      @Override
+      public void onAnimationRepeat(Animation animation){}
+
+      @Override
+      public void onAnimationEnd(Animation animation)
+      {
+        setScore(mPlayer.totalScore);
+      }
+    });
+
+    mChoiceImageView.startAnimation(fade);
   }
 }
