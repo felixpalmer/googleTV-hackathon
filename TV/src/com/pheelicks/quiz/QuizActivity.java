@@ -103,12 +103,12 @@ public class QuizActivity extends Activity {
       t.start();
       mServerThreads.add(st);
     }
-    
+
     // Update fonts for added fanciness
     //Typeface font_sofia 		= Typeface.createFromAsset(getAssets(), "sofia.otf");
     Typeface fontRobotoLight 	= Typeface.createFromAsset(getAssets(), "roboto_light.ttf");
     Typeface fontRobotoMedium = Typeface.createFromAsset(getAssets(), "roboto_medium.ttf");
-    
+
     // Answers are in roboto medium
     for (Button optionButton : mOptionButtons ){
     	optionButton.setTypeface(fontRobotoMedium);
@@ -359,7 +359,8 @@ public class QuizActivity extends Activity {
           {
             // Correct answer!
             Log.d(TAG, "Answer is correct");
-            player.questionScore = 10;
+            int timeLeft = QUESTION_TIMER - (int)Math.floor((System.currentTimeMillis() - mQuestionStartTime)/1000.0);
+            player.questionScore = calculateScore(timeLeft);
           }
           else
           {
@@ -387,6 +388,18 @@ public class QuizActivity extends Activity {
     }
 
   }
+
+  /**
+   * Given the time remaining for the question, returns the score for answering
+   * correctly now
+   * @param timeRemaining
+   * @return
+   */
+  private int calculateScore(int timeRemaining)
+  {
+    return timeRemaining + 3; // Add some base points for people answering late
+  }
+
 
   // Server code
   public class ServerThread implements Runnable {
