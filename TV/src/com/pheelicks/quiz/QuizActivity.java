@@ -58,7 +58,7 @@ public class QuizActivity extends Activity {
   private Handler mHandler = new Handler();
 
   private long mQuestionStartTime;
-  private final static int QUESTION_TIMER = 5; // 5 seconds between questions
+  private final static int QUESTION_TIMER = 15; // 15 seconds between questions
 
   // default ip
   public static String SERVERIP = "192.168.51.177";
