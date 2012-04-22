@@ -65,7 +65,7 @@ public class InitialScreenActivity extends Activity {
 
     e.commit();
 
-    Intent intent = new Intent(this, InitialScreenActivity.class);
+    Intent intent = new Intent(this, MainActivity.class);
     startActivity(intent);
     finish();
   }

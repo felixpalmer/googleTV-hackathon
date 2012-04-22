@@ -13,10 +13,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -31,7 +33,7 @@ public class QuizClientActivity extends Activity {
   private PrintWriter mOutWriter;
   private BufferedReader mInputReader;
 
-  private Button mConnectButton;
+  private LinearLayout mConnectLayout;
   private TextView mQuestionTextView;
   private RadioButton mAnswer1Button;
   private RadioButton mAnswer2Button;
@@ -48,6 +50,7 @@ public class QuizClientActivity extends Activity {
     Log.i(TAG, "Started client " + CLIENT_ID);
 
     // Find views
+    mConnectLayout = (LinearLayout)findViewById(R.id.connect_container);
     mQuestionTextView = (TextView)findViewById(R.id.Question);
     mAnswer1Button = (RadioButton)findViewById(R.id.Answer1);
     mAnswer2Button = (RadioButton)findViewById(R.id.Answer2);
@@ -63,6 +66,13 @@ public class QuizClientActivity extends Activity {
     }
   }
 
+  public void settingsPressed(View view)
+  {
+    Intent intent = new Intent(this, InitialScreenActivity.class);
+    startActivity(intent);
+    finish();
+  }
+
   // Will get called when the connection state to the server changes
   public void setConnected(final boolean connected)
   {
@@ -73,12 +83,12 @@ public class QuizClientActivity extends Activity {
       {
         if(connected)
         {
-//          mConnectButton.setVisibility(View.GONE);
+          mConnectLayout.setVisibility(View.GONE);
         }
         else
         {
           finish();
-//          mConnectButton.setVisibility(View.VISIBLE);
+          mConnectLayout.setVisibility(View.VISIBLE);
         }
       }
     });

@@ -12,13 +12,29 @@
         android:orientation="vertical"
         android:padding="20dp" >
 
-        <Button
-            android:id="@+id/connect_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="connectPressed"
-            android:text="Connect" >
-        </Button>
+        <LinearLayout
+            android:id="@+id/connect_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/connect_btn"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:onClick="connectPressed"
+                android:text="Connect" >
+            </Button>
+
+            <Button
+                android:id="@+id/settings_btn"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:onClick="settingsPressed"
+                android:text="Settings" >
+            </Button>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/Question"
@@ -41,8 +57,8 @@
             <RadioButton
                 android:id="@+id/Answer1"
                 style="@style/GenericButton"
-                android:button="@null"
                 android:background="@drawable/option_a_selector"
+                android:button="@null"
                 android:onClick="answerPressed"
                 android:text="They mostly come at night ... Mostly." >
             </RadioButton>
@@ -50,8 +66,8 @@
             <RadioButton
                 android:id="@+id/Answer2"
                 style="@style/GenericButton"
-                android:button="@null"
                 android:background="@drawable/option_b_selector"
+                android:button="@null"
                 android:onClick="answerPressed"
                 android:text="Game over, man. Game over!" >
             </RadioButton>
@@ -59,8 +75,8 @@
             <RadioButton
                 android:id="@+id/Answer3"
                 style="@style/GenericButton"
-                android:button="@null"
                 android:background="@drawable/option_c_selector"
+                android:button="@null"
                 android:onClick="answerPressed"
                 android:text="Get away from her, you bitch!" >
             </RadioButton>
@@ -68,8 +84,8 @@
             <RadioButton
                 android:id="@+id/Answer4"
                 style="@style/GenericButton"
-                android:button="@null"
                 android:background="@drawable/option_d_selector"
+                android:button="@null"
                 android:onClick="answerPressed"
                 android:text="I&apos;ll be back." >
             </RadioButton>
