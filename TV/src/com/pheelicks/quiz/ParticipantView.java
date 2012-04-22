@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,7 +50,7 @@ public class ParticipantView extends LinearLayout
     // Update fonts for added fanciness
     Typeface fontSofia 		= Typeface.createFromAsset(getContext().getAssets(), "sofia.otf");
     Typeface fontRobotoMedium = Typeface.createFromAsset(getContext().getAssets(), "roboto_medium.ttf");
-    
+
     // Answers are in roboto medium
     /*for (Button optionButton : mOptionButtons ){
     	optionButton.setTypeface(fontRobotoMedium);
@@ -62,6 +61,39 @@ public class ParticipantView extends LinearLayout
     //mQuestionTextView.setTypeface(fontRobotoThin);
     //mNameTextView.setTypeface(font);
     //setConnecting(true);
+  }
+
+  /**
+   * Increment the score by this amount
+   * @param score
+   */
+  void addToScore(int score)
+  {
+    mScoreTextView.setText("+" + Integer.toString(score));
+    mChoiceImageView.setVisibility(View.GONE);
+    mScoreTextView.setVisibility(View.VISIBLE);
+
+    // Update total score and zero out question score
+    mPlayer.totalScore += score;
+    mPlayer.questionScore = 0;
+
+    Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+    fade.setAnimationListener(new AnimationListener()
+    {
+      @Override
+      public void onAnimationStart(Animation animation){}
+
+      @Override
+      public void onAnimationRepeat(Animation animation){}
+
+      @Override
+      public void onAnimationEnd(Animation animation)
+      {
+        setScore(mPlayer.totalScore);
+      }
+    });
+
+    mScoreTextView.startAnimation(fade);
   }
 
   /**
@@ -115,8 +147,6 @@ public class ParticipantView extends LinearLayout
     mChoiceImageView.setVisibility(View.VISIBLE);
     mScoreTextView.setVisibility(View.GONE);
     mPlayer.currentChoice = -1;
-    mPlayer.totalScore += mPlayer.questionScore;
-    mPlayer.questionScore = 0;
 
     Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
     fade.setAnimationListener(new AnimationListener()
@@ -130,7 +160,7 @@ public class ParticipantView extends LinearLayout
       @Override
       public void onAnimationEnd(Animation animation)
       {
-        setScore(mPlayer.totalScore);
+        addToScore(mPlayer.questionScore);
       }
     });
 

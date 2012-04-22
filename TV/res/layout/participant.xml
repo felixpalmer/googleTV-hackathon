@@ -26,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_marginRight="5dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.33"
         android:gravity="center"
         android:textSize="28dp" >
     </TextView>
@@ -36,8 +36,9 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_marginRight="5dp"
-        android:layout_weight="0.25"
-        android:gravity="center" >
+        android:layout_weight="0.33"
+        android:gravity="center"
+        android:layout_gravity="center" >
     </ImageView>
 
 </LinearLayout>
