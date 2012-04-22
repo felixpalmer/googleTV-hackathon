@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -31,6 +32,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity {
@@ -42,7 +44,7 @@ public class QuizActivity extends Activity {
   private List<Question> mQuestions;
   private TextView mCountdownTextView;
   private ImageView mImageView;
-
+  private LinearLayout mHomeScreen;
 
   private int mCurrentQuestion;
   private Handler mHandler = new Handler();
@@ -109,12 +111,18 @@ public class QuizActivity extends Activity {
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_4));
     mCountdownTextView = (TextView)findViewById(R.id.countdown_tv);
     mImageView = (ImageView)findViewById(R.id.image);
+    mHomeScreen = (LinearLayout)findViewById(R.id.home_screen);
 
     // For now, just hack in some names
     mParticipantViews.get(0).setName("Felix");
     mParticipantViews.get(1).setName("Kent");
     mParticipantViews.get(2).setName("Stephan");
     mParticipantViews.get(3).setName("Veda");
+  }
+
+  public void playPressed(View view)
+  {
+    mHomeScreen.setVisibility(View.GONE);
   }
 
   private void displayQuestion(final Question q)

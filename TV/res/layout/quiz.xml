@@ -256,7 +256,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:text="Play!"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:onClick="playPressed" >
+            <requestFocus />
         </Button>
     </LinearLayout>
 
