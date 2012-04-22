@@ -2,8 +2,8 @@
 <resources>
 
     <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">Quiz-TV</string>
-    <string name="connecting">Waiting for player...</string>
+    <string name="app_name">Quizinator TV</string>
+    <string name="connecting">Waiting for player ...</string>
     <string name="join">Join</string>
         
 </resources>

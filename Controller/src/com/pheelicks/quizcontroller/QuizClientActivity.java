@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -101,7 +102,7 @@ public class QuizClientActivity extends Activity {
   }
 
   private void uncheckAllExcept(RadioButton r) {
-    Log.d(TAG, "Unchecking");
+    //Log.d(TAG, "Unchecking");
     RadioButton[] buttons = new RadioButton[4];
     buttons[0] = mAnswer1Button;
     buttons[1] = mAnswer2Button;
