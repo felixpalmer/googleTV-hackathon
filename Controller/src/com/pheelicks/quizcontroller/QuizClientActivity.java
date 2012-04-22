@@ -30,7 +30,14 @@ public class QuizClientActivity extends Activity {
   private static final int CLIENT_ID = 1; // TODO do not hard code
   private PrintWriter mOutWriter;
   private BufferedReader mInputReader;
+
   private Button mConnectButton;
+  private TextView mQuestionTextView;
+  private Button mAnswer1Button;
+  private Button mAnswer2Button;
+  private Button mAnswer3Button;
+  private Button mAnswer4Button;
+
   private Question mCurrentQuestion;
 
   @Override
@@ -39,7 +46,14 @@ public class QuizClientActivity extends Activity {
     setContentView(R.layout.quizclient);
 
     Log.i(TAG, "Started client " + CLIENT_ID);
+
+    // Find views
     mConnectButton = (Button)findViewById(R.id.connect_btn);
+    mQuestionTextView = (TextView)findViewById(R.id.Question);
+    mAnswer1Button = (Button)findViewById(R.id.Answer1);
+    mAnswer2Button = (Button)findViewById(R.id.Answer2);
+    mAnswer3Button = (Button)findViewById(R.id.Answer3);
+    mAnswer4Button = (Button)findViewById(R.id.Answer4);
   }
 
   public void connectPressed(View view)
@@ -89,16 +103,18 @@ public class QuizClientActivity extends Activity {
   private void updateWithQuestion(Question question)
   {
     mCurrentQuestion = question;
-    TextView q = (TextView)findViewById(R.id.Question);
-    Button a1 = (Button)findViewById(R.id.Answer1);
-    Button a2 = (Button)findViewById(R.id.Answer2);
-    Button a3 = (Button)findViewById(R.id.Answer3);
-    Button a4 = (Button)findViewById(R.id.Answer4);
-    q.setText(question.title);
-    a1.setText(question.answers.get(0));
-    a2.setText(question.answers.get(1));
-    a3.setText(question.answers.get(2));
-    a4.setText(question.answers.get(3));
+    mQuestionTextView.setText(question.title);
+    mAnswer1Button.setText(question.answers.get(0));
+    mAnswer2Button.setText(question.answers.get(1));
+    mAnswer3Button.setText(question.answers.get(2));
+    mAnswer4Button.setText(question.answers.get(3));
+  }
+
+  public void answerPressed(View v)
+  {
+    String chosenAnswer = (String)((Button)v).getText();
+    mCurrentQuestion.correctAnswer = chosenAnswer;
+    sendMessageToServer(CLIENT_ID, JSONMessages.postAnswer(mCurrentQuestion));
   }
 
   // Use methods here to send/receive message to/from server

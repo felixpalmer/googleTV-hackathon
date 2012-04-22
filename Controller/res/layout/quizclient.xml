@@ -23,7 +23,7 @@
         android:id="@+id/Answer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="sendMessagePressed"
+        android:onClick="answerPressed"
         android:text="Answer1" >
     </Button>
 
@@ -31,7 +31,7 @@
         android:id="@+id/Answer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="sendMessagePressed"
+        android:onClick="answerPressed"
         android:text="Answer2" >
     </Button>
 
@@ -39,7 +39,7 @@
         android:id="@+id/Answer3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="sendMessagePressed"
+        android:onClick="answerPressed"
         android:text="Answer3" >
     </Button>
 
@@ -47,7 +47,7 @@
         android:id="@+id/Answer4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="sendMessagePressed"
+        android:onClick="answerPressed"
         android:text="Answer4" >
     </Button>
 

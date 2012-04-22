@@ -21,14 +21,13 @@ public class JSONMessages
     return json;
   }
 
-  public static JSONObject sendQuestion(Question q)
+  public static JSONObject newQuestion(Question q)
   {
     JSONObject json = new JSONObject();
     try
     {
       json.put(JSONAPI.MSG_TYPE, JSONAPI.NEW_QUESTION);
-
-      json.put(JSONAPI.MSG_VALUE, JSONAPI.STATUS_OK);
+      json.put(JSONAPI.MSG_VALUE, q.toJSON());
     }
     catch (JSONException e)
     {
@@ -38,4 +37,19 @@ public class JSONMessages
     return json;
   }
 
+  public static JSONObject postAnswer(Question q)
+  {
+    JSONObject json = new JSONObject();
+    try
+    {
+      json.put(JSONAPI.MSG_TYPE, JSONAPI.POST_ANSWER);
+      json.put(JSONAPI.MSG_VALUE, q.toJSON());
+    }
+    catch (JSONException e)
+    {
+      // Won't happen
+    }
+
+    return json;
+  }
 }
