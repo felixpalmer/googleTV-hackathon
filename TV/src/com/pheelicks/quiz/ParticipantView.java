@@ -76,9 +76,14 @@ public class ParticipantView extends LinearLayout
    * Show which option the player picked. To remove the choice update the score
    * @param choice
    */
-  void setChoice(int choice)
+  void showChoice()
   {
-    switch(choice)
+    if(mPlayer == null || mPlayer.currentChoice == -1)
+    {
+      return;
+    }
+
+    switch(mPlayer.currentChoice)
     {
       case 0:
         mChoiceImageView.setImageResource(R.drawable.circle_a);
@@ -98,5 +103,11 @@ public class ParticipantView extends LinearLayout
 
     mChoiceImageView.setVisibility(View.VISIBLE);
     mScoreTextView.setVisibility(View.GONE);
+    mPlayer.currentChoice = -1;
+    mPlayer.totalScore += mPlayer.questionScore;
+    mPlayer.questionScore = 0;
+
+//    Animation fade = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+//    fade.setAnimationListener(listener)
   }
 }

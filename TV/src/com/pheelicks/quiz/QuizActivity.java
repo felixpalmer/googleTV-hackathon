@@ -137,6 +137,7 @@ public class QuizActivity extends Activity {
       {
         Player player = new Player();
         player.name = NAMES[position];
+        player.position = position;
         mPlayers.add(player);
         mPlayerViews.get(position).setPlayer(player);
         mParticipantViews.get(position).setPlayer(player);
@@ -159,7 +160,7 @@ public class QuizActivity extends Activity {
     {
       Animation anim = AnimationUtils.loadAnimation(this, R.anim.option_out);
       anim.setStartOffset(i*100);
-      mOptionButtons.get(i).setAnimation(anim);
+      mOptionButtons.get(i).startAnimation(anim);
       final int finalI = i;
       anim.setAnimationListener(new AnimationListener()
       {
@@ -230,7 +231,10 @@ public class QuizActivity extends Activity {
         mCountdownTextView.setText("0:00");
 
         // Reveal scores
-
+        for(ParticipantView p : mParticipantViews)
+        {
+          p.showChoice();
+        }
 
         moveToNextQuestion();
         mQuestionStartTime = System.currentTimeMillis();
@@ -294,25 +298,33 @@ public class QuizActivity extends Activity {
         Question displayedQuestion = mQuestions.get(mCurrentQuestion);
         if(q.title.equalsIgnoreCase(displayedQuestion.title))
         {
+          Player player = null;
+          for(Player p : mPlayers)
+          {
+            if(p.position == client)player = p;
+          }
+
+          if(player == null)
+          {
+            // Shouldn't happen
+            Log.e(TAG, "Received message from unregistered player");
+            return;
+          }
+
           // Answered the correct question, check if answer if right
           if(q.correctAnswer.equalsIgnoreCase(displayedQuestion.correctAnswer))
           {
             // Correct answer!
             Log.d(TAG, "Answer is correct");
-            runOnUiThread(new Runnable()
-            {
-              @Override
-              public void run()
-              {
-                mParticipantViews.get(client).addScore(10);
-              }
-            });
-
+            player.questionScore = 10;
           }
           else
           {
             Log.d(TAG, "Answer is wrong");
+            player.questionScore = 0;
           }
+
+          player.currentChoice = displayedQuestion.indexForAnswer(q.correctAnswer);
         }
         else
         {

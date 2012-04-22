@@ -58,4 +58,19 @@ public class Question
 
     return obj;
   }
+
+  public int indexForAnswer(String a)
+  {
+    int index = -1;
+    for(int c = 0; c < 4; c++)
+    {
+      if(answers.get(c).equalsIgnoreCase(a))
+      {
+        index = c;
+        break;
+      }
+    }
+
+    return index;
+  }
 }

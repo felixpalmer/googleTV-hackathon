@@ -9,6 +9,11 @@ public class Player
   public int questionScore;
   public int totalScore;
 
+  public Player()
+  {
+    currentChoice = -1;
+  }
+
   @Override
   public int hashCode()
   {
