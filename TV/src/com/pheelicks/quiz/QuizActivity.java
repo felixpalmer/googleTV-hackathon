@@ -236,27 +236,37 @@ public class QuizActivity extends Activity {
           p.showChoice();
         }
 
-        moveToNextQuestion();
-        mQuestionStartTime = System.currentTimeMillis();
+        mHandler.postDelayed(mNextQuestion, 5000);
       }
+      else
+      {
+        mHandler.postDelayed(mGameTick, 1000);
+      }
+    }
+  };
+
+  private Runnable mNextQuestion = new Runnable()
+  {
+    @Override
+    public void run()
+    {
+      mCurrentQuestion =  (mCurrentQuestion + 1) % mQuestions.size();
+      Log.d(TAG, "Next question: " + mCurrentQuestion);
+      sendQuestionToAllClients(mQuestions.get(mCurrentQuestion));
+      mQuestionStartTime = System.currentTimeMillis();
+
+      runOnUiThread(new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          displayQuestion(mQuestions.get(mCurrentQuestion));
+        }
+      });
       mHandler.postDelayed(mGameTick, 1000);
     }
   };
 
-  public void moveToNextQuestion()
-  {
-    mCurrentQuestion =  (mCurrentQuestion + 1) % mQuestions.size();
-    Log.d(TAG, "Next question: " + mCurrentQuestion);
-    sendQuestionToAllClients(mQuestions.get(mCurrentQuestion));
-    runOnUiThread(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        displayQuestion(mQuestions.get(mCurrentQuestion));
-      }
-    });
-  }
 
   public void sendQuestionToClient(int client, Question q)
   {
