@@ -35,7 +35,9 @@ public class QuizActivity extends Activity {
   private List<Question> mQuestions;
   private int mCurrentQuestion;
   private Handler mHandler = new Handler();
-  private final static int QUESTION_TIMER = 5000; // 5 seconds between questions
+
+  private long questionTimeout;
+  private final static int QUESTION_TIMER = 15000; // 15 seconds between questions
 
   // default ip
   public static String SERVERIP = "192.168.51.177";
@@ -127,17 +129,30 @@ public class QuizActivity extends Activity {
     return null;
   }
 
-  private Runnable mNextQuestion = new Runnable()
+  private Runnable mGameTick = new Runnable()
   {
     @Override
     public void run()
     {
-      // Increment current question and show next
-      mCurrentQuestion = (mCurrentQuestion + 1) % mQuestions.size(); // For now loop around
-      displayQuestion(mQuestions.get(mCurrentQuestion));
-      mHandler.postDelayed(mNextQuestion, 5000);
+
+      mHandler.postDelayed(mGameTick, 1000);
     }
   };
+
+  public void moveToNextQuestion()
+  {
+    mCurrentQuestion =  (mCurrentQuestion + 1) % mQuestions.size();
+    Log.d(TAG, "Next question: " + mCurrentQuestion);
+    sendQuestionToAllClients(mQuestions.get(mCurrentQuestion));
+    runOnUiThread(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        displayQuestion(mQuestions.get(mCurrentQuestion));
+      }
+    });
+  }
 
   public void sendQuestionToClient(int client, Question q)
   {
@@ -188,7 +203,6 @@ public class QuizActivity extends Activity {
               @Override
               public void run()
               {
-
                 mParticipantViews.get(client).addScore(10);
               }
             });
@@ -200,17 +214,6 @@ public class QuizActivity extends Activity {
           }
 
           // TODO, change - we want to wait for all answers
-          mCurrentQuestion =  (mCurrentQuestion + 1) % mQuestions.size();
-          Log.d(TAG, "Next question: " + mCurrentQuestion);
-          sendQuestionToAllClients(mQuestions.get(mCurrentQuestion));
-          runOnUiThread(new Runnable()
-          {
-            @Override
-            public void run()
-            {
-              displayQuestion(mQuestions.get(mCurrentQuestion));
-            }
-          });
         }
         else
         {

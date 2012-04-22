@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class QuizClientActivity extends Activity {
@@ -82,22 +81,6 @@ public class QuizClientActivity extends Activity {
         }
       }
     });
-  }
-
-  public void sendMessagePressed(View view)
-  {
-    EditText message = (EditText) findViewById(R.id.message_to_send);
-    JSONObject msg = new JSONObject();
-    try
-    {
-      msg.put(JSONAPI.MSG_TYPE, JSONAPI.NEW_QUESTION);
-      msg.put(JSONAPI.MSG_VALUE, message.getText());
-      sendMessageToServer(CLIENT_ID, msg);
-    }
-    catch (JSONException e)
-    {
-      Log.e(TAG, Log.getStackTraceString(e));
-    }
   }
 
   private void updateWithQuestion(Question question)
