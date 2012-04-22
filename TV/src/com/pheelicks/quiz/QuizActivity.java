@@ -26,8 +26,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
-  private static final String TAG = "MainActivity";
+public class QuizActivity extends Activity {
+  private static final String TAG = "QuizActivity";
 
   private TextView mQuestionTextView;
   private List<Button> mOptionButtons;
@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
     SERVERIP = getLocalIpAddress();
 
     // Create 4 threads for 4 clients
-    mServerThreads = new ArrayList<MainActivity.ServerThread>(MAX_CLIENTS);
+    mServerThreads = new ArrayList<QuizActivity.ServerThread>(MAX_CLIENTS);
     for(int i = 0; i < MAX_CLIENTS; i++)
     {
       ServerThread st = new ServerThread(i);
