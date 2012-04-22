@@ -16,6 +16,7 @@ public class Question
   public String title;
   public String correctAnswer;
   public List<String> answers;
+  public String image; // Doesn't make it into JSON for now
 
   public Question()
   {

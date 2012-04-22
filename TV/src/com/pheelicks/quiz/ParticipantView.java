@@ -3,7 +3,6 @@ package com.pheelicks.quiz;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,10 +10,10 @@ public class ParticipantView extends LinearLayout
 {
   private static final String TAG = "ParticipantView";
 
-  private ImageView mImageView;
   private int mScore;
 
   private TextView mScoreTextView;
+  private TextView mNameTextView;
 
   public ParticipantView(Context context)
   {
@@ -34,16 +33,11 @@ public class ParticipantView extends LinearLayout
     View.inflate(context, R.layout.participant, this);
 
     // Find subviews
-    //mImageView = (ImageView)findViewById(R.id.participant_iv);
     mScoreTextView = (TextView)findViewById(R.id.score_tv);
+    mNameTextView = (TextView)findViewById(R.id.name_tv);
 
     //mImageView.setBackgroundColor(0xff005500); // So we can see it for now
     setScore(0);
-  }
-
-  ImageView getImageView()
-  {
-    return mImageView;
   }
 
   /**
@@ -63,5 +57,10 @@ public class ParticipantView extends LinearLayout
   void addScore(int score)
   {
     setScore(score + mScore);
+  }
+
+  void setName(String name)
+  {
+    mNameTextView.setText(name);
   }
 }
