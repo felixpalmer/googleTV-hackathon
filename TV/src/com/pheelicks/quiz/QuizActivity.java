@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -35,11 +36,13 @@ public class QuizActivity extends Activity {
   private List<Button> mOptionButtons;
   private List<ParticipantView> mParticipantViews;
   private List<Question> mQuestions;
+  private TextView mCountdownTextView;
+
   private int mCurrentQuestion;
   private Handler mHandler = new Handler();
 
-  private long questionTimeout;
-  private final static int QUESTION_TIMER = 15000; // 15 seconds between questions
+  private long mQuestionStartTime;
+  private final static int QUESTION_TIMER = 15; // 15 seconds between questions
 
   // default ip
   public static String SERVERIP = "192.168.51.177";
@@ -98,6 +101,7 @@ public class QuizActivity extends Activity {
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_2));
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_3));
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_4));
+    mCountdownTextView = (TextView)findViewById(R.id.countdown_tv);
   }
 
   private void displayQuestion(Question q)
@@ -130,12 +134,24 @@ public class QuizActivity extends Activity {
     return null;
   }
 
+  private void startGame()
+  {
+    mQuestionStartTime = System.currentTimeMillis();
+    mHandler.post(mGameTick);
+  }
+
   private Runnable mGameTick = new Runnable()
   {
     @Override
     public void run()
     {
-
+      int timeLeft = QUESTION_TIMER - (int)Math.floor((System.currentTimeMillis() - mQuestionStartTime)/1000.0);
+      mCountdownTextView.setText(String.format("0:%02d", timeLeft));
+      if(timeLeft <= 0)
+      {
+        moveToNextQuestion();
+        mQuestionStartTime = System.currentTimeMillis();
+      }
       mHandler.postDelayed(mGameTick, 1000);
     }
   };
@@ -176,6 +192,7 @@ public class QuizActivity extends Activity {
       Log.e(TAG, "Client id out of range: " + client);
       return;
     }
+
     mServerThreads.get(client).sendMessageToClient(message);
   }
 
@@ -213,8 +230,6 @@ public class QuizActivity extends Activity {
           {
             Log.d(TAG, "Answer is wrong");
           }
-
-          // TODO, change - we want to wait for all answers
         }
         else
         {
@@ -239,6 +254,7 @@ public class QuizActivity extends Activity {
   public class ServerThread implements Runnable {
     private int mClient;
 
+    private Handler mServerHandler;
     private ServerSocket serverSocket;
     private PrintWriter mOutWriter;
     private BufferedReader mInputReader;
@@ -260,9 +276,18 @@ public class QuizActivity extends Activity {
         {
           Log.e(TAG, Log.getStackTraceString(e));
         }
-        String stringified = message.toString();
+
+        // This is beyond broken, totally needs a re-design
+        final String stringified = message.toString();
         Log.d(TAG, "Sending to client " + mClient + ": " + stringified);
-        mOutWriter.println(stringified);
+        mHandler.post(new Runnable()
+        {
+          @Override
+          public void run()
+          {
+            new SendToClientTask().execute(stringified);
+          }
+        });
       }
     }
 
@@ -283,6 +308,9 @@ public class QuizActivity extends Activity {
             Socket client = serverSocket.accept();
             mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
             sendMessageToClient(JSONMessages.OK());
+
+            // TODO wait for more clients
+            startGame();
 
             // Send first question to client
             sendQuestionToClient(mClient, mQuestions.get(mCurrentQuestion));
@@ -330,6 +358,17 @@ public class QuizActivity extends Activity {
           }
         });
         e.printStackTrace();
+      }
+    }
+
+    class SendToClientTask extends AsyncTask<String, Void, Integer>
+    {
+      @Override
+      protected Integer doInBackground(String... msgs)
+      {
+        String msg = msgs[0];
+        mOutWriter.println(msg);
+        return 0;
       }
     }
   }
