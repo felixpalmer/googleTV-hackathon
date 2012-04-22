@@ -31,37 +31,48 @@
             android:textColor="#ffffff"
             android:textSize="24dp" />
 
-        <Button
-            android:id="@+id/Answer1"
-            style="@style/GenericButton"
-            android:background="@drawable/option_a"
-            android:onClick="answerPressed"
-            android:text="They mostly come at night ... Mostly." >
-        </Button>
+        <RadioGroup
+            android:id="@+id/options"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/Answer2"
-            style="@style/GenericButton"
-            android:background="@drawable/option_b"
-            android:onClick="answerPressed"
-            android:text="Game over, man. Game over!" >
-        </Button>
+            <RadioButton
+                android:id="@+id/Answer1"
+                style="@style/GenericButton"
+                android:button="@null"
+                android:background="@drawable/option_a_selector"
+                android:onClick="answerPressed"
+                android:text="They mostly come at night ... Mostly." >
+            </RadioButton>
 
-        <Button
-            android:id="@+id/Answer3"
-            style="@style/GenericButton"
-            android:background="@drawable/option_c"
-            android:onClick="answerPressed"
-            android:text="Get away from her, you bitch!" >
-        </Button>
+            <RadioButton
+                android:id="@+id/Answer2"
+                style="@style/GenericButton"
+                android:button="@null"
+                android:background="@drawable/option_b_selector"
+                android:onClick="answerPressed"
+                android:text="Game over, man. Game over!" >
+            </RadioButton>
 
-        <Button
-            android:id="@+id/Answer4"
-            style="@style/GenericButton"
-            android:background="@drawable/option_d"
-            android:onClick="answerPressed"
-            android:text="I&apos;ll be back." >
-        </Button>
+            <RadioButton
+                android:id="@+id/Answer3"
+                style="@style/GenericButton"
+                android:button="@null"
+                android:background="@drawable/option_c_selector"
+                android:onClick="answerPressed"
+                android:text="Get away from her, you bitch!" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/Answer4"
+                style="@style/GenericButton"
+                android:button="@null"
+                android:background="@drawable/option_d_selector"
+                android:onClick="answerPressed"
+                android:text="I&apos;ll be back." >
+            </RadioButton>
+        </RadioGroup>
     </LinearLayout>
 
 </ScrollView>
