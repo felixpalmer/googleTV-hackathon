@@ -192,6 +192,10 @@ public class QuizActivity extends Activity {
 
           Animation anim = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.option_in);
           mOptionButtons.get(finalI).setAnimation(anim);
+
+          // Switch back to default mode
+          mOptionButtons.get(finalI).setEnabled(true);
+          mOptionButtons.get(finalI).setSelected(false);
         }
       });
     }
@@ -250,6 +254,19 @@ public class QuizActivity extends Activity {
         for(ParticipantView p : mParticipantViews)
         {
           p.showChoice();
+        }
+
+        // Show correct answer
+        for(Button b : mOptionButtons)
+        {
+          if(b.getText() == mQuestions.get(mCurrentQuestion).correctAnswer)
+          {
+            b.setSelected(true);
+          }
+          else
+          {
+            b.setEnabled(false);
+          }
         }
 
         mHandler.postDelayed(mNextQuestion, 5000);

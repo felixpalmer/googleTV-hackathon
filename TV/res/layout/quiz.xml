@@ -91,7 +91,7 @@
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.25"
-                    android:background="@drawable/option_a" >
+                    android:background="@drawable/option_a_selector" >
                 </Button>
 
                 <Button
@@ -101,7 +101,7 @@
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.25"
-                    android:background="@drawable/option_b" >
+                    android:background="@drawable/option_b_selector" >
                 </Button>
 
                 <Button
@@ -111,7 +111,7 @@
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.25"
-                    android:background="@drawable/option_c" >
+                    android:background="@drawable/option_c_selector" >
                 </Button>
 
                 <Button
@@ -121,7 +121,7 @@
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.25"
-                    android:background="@drawable/option_d" >
+                    android:background="@drawable/option_d_selector" >
                 </Button>
             </LinearLayout>
         </LinearLayout>
