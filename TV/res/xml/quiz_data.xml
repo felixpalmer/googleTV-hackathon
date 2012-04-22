@@ -15,14 +15,14 @@
 	  <correct>acwoananoo, ohoorcanwa!</correct>
 	  <wrong>rooohu caoahwhor</wrong>
       <wrong>rroooowa whahrracao</wrong>
-	  <correct>ohacraao aoahscwo ahc ahao?</correct>
+	  <wrong>ohacraao aoahscwo ahc ahao?</wrong>
     <image>starwars</image>
 	  </question>
 	
   	<question>
 	  <title>10110 is really just a nice way of saying</title>
 	  <wrong>"20"</wrong>
-	  <wrong>"22"</wrong>
+	  <wrong>"28"</wrong>
       <wrong>"24"</wrong>
 	  <correct>"What a nice hat!"</correct>
     <image>binary</image>
@@ -40,7 +40,7 @@
        <title>Which artist did never collaborate with Michael Jackson</title>
  	<wrong>Paul McCartney</wrong>
        <wrong>Mick Jagger</wrong>
-       <correct>Elton John</correct>
+       <correct>Nelson Mandela</correct>
        <wrong>Eddie Murphy</wrong>
     <image>michaeljackson</image>
        </question>
