@@ -11,37 +11,37 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:padding="20dp" >
- 		
+
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher" />
-       
+
         <EditText
-            android:id="@+id/editText1"
-            android:inputType="text"
+            android:id="@+id/ip_editText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:ems="10" 
-            android:text="192.168.148.204">
+            android:ems="10"
+            android:hint="Server IP"
+            android:inputType="text" >
+        </EditText>
 
-            <requestFocus />
+        <EditText
+            android:id="@+id/client_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:hint="Client id"
+            android:inputType="number" >
         </EditText>
 
         <Button
-            android:id="@+id/connect_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="connectPressed"
-            android:text="Connect" >
+            android:onClick="savePressed"
+            android:text="Save" >
         </Button>
-
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
+
 </ScrollView>
