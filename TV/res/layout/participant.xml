@@ -16,7 +16,7 @@
         android:layout_marginLeft="25dp"
         android:layout_weight="0.75"
         android:gravity="center_vertical"
-        android:textSize="26dp"
+        android:textSize="30dp"
         android:text="@string/join" >
     </TextView>
 
