@@ -74,10 +74,11 @@ public class QuizParser
         else if(CORRECT_TAG.equals(currentTag))
         {
           currentQuestion.correctAnswer = xpp.getText();
+          currentQuestion.answers.add(xpp.getText());
         }
         else if(WRONG_TAG.equals(currentTag))
         {
-          currentQuestion.wrongAnswers.add(xpp.getText());
+          currentQuestion.answers.add(xpp.getText());
         }
       }
 

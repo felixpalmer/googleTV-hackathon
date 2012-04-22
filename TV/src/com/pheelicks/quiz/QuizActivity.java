@@ -64,7 +64,6 @@ public class QuizActivity extends Activity {
 
     // Show first question
     displayQuestion(mQuestions.get(mCurrentQuestion));
-    mHandler.postDelayed(mNextQuestion, 5000);
 
     // Setup server thread
     serverStatus = (TextView) findViewById(R.id.server_status);
@@ -95,10 +94,10 @@ public class QuizActivity extends Activity {
   private void displayQuestion(Question q)
   {
     mQuestionTextView.setText(q.title);
-    mOptionButtons.get(0).setText(q.correctAnswer);
-    mOptionButtons.get(1).setText(q.wrongAnswers.get(0));
-    mOptionButtons.get(2).setText(q.wrongAnswers.get(1));
-    mOptionButtons.get(3).setText(q.wrongAnswers.get(2));
+    mOptionButtons.get(0).setText(q.answers.get(0));
+    mOptionButtons.get(1).setText(q.answers.get(1));
+    mOptionButtons.get(2).setText(q.answers.get(2));
+    mOptionButtons.get(3).setText(q.answers.get(3));
   }
 
   private List<Question> loadQuestions()
@@ -134,6 +133,10 @@ public class QuizActivity extends Activity {
     }
   };
 
+  public void sendQuestionToClient(int client, Question q)
+  {
+    sendMessageToClient(client, JSONMessages.newQuestion(q));
+  }
 
   // Use methods here to send/receive message to/from clients
   public void sendMessageToClient(int client, JSONObject message)
@@ -200,6 +203,9 @@ public class QuizActivity extends Activity {
             Socket client = serverSocket.accept();
             mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
             sendMessageToClient(JSONMessages.OK());
+
+            // Send first question to client
+            sendQuestionToClient(mClient, mQuestions.get(mCurrentQuestion));
             mHandler.post(new Runnable() {
               @Override
               public void run() {
