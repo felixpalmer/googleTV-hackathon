@@ -18,11 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".QuizClientActivity" >
+        <activity android:name=".QuizClientActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ClientActivity" >
-        </activity>
-        </application>
+    </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
 
