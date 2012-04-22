@@ -531,12 +531,17 @@ public class QuizActivity extends Activity {
         NetworkInterface intf = en.nextElement();
         for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
           InetAddress inetAddress = enumIpAddr.nextElement();
-          if (!inetAddress.isLoopbackAddress()) { return inetAddress.getHostAddress().toString(); }
+          if (!inetAddress.isLoopbackAddress()) {
+            String address = inetAddress.getHostAddress().toString();
+            // THis returns the external ip String ip = Formatter.formatIpAddress(inetAddress.hashCode());
+            return address;
+          }
         }
       }
     } catch (SocketException ex) {
       Log.e("ServerActivity", ex.toString());
     }
+
     return null;
   }
 
