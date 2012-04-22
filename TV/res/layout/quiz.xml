@@ -2,9 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff000000"
     android:orientation="vertical"
-    android:padding="35dp" >
+    android:padding="35dp" 
+    android:background="@drawable/bg"
+    >
 
     <!-- Safe area defined where all content should go. Anything outside may be clipped -->
 
@@ -41,6 +42,15 @@
             android:layout_height="0dp"
             android:layout_weight="1" >
 
+            <!-- Picture, will take up two thirds of the width -->
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.67"
+                android:background="#ff221111" >
+            </ImageView>
+            
             <!-- Layout to house options, will take up a third of the width -->
 
             <LinearLayout
@@ -83,14 +93,6 @@
                 </Button>
             </LinearLayout>
 
-            <!-- Picture, will take up two thirds of the width -->
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.67"
-                android:background="#ff221111" >
-            </ImageView>
         </LinearLayout>
 
         <!-- Layout to house participants, TODO don't hardcode height!!! -->
