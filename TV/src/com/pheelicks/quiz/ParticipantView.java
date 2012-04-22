@@ -1,11 +1,13 @@
 package com.pheelicks.quiz;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +47,21 @@ public class ParticipantView extends LinearLayout
 
     //mImageView.setBackgroundColor(0xff005500); // So we can see it for now
     setScore(0);
+
+    // Update fonts for added fanciness
+    Typeface fontSofia 		= Typeface.createFromAsset(getContext().getAssets(), "sofia.otf");
+    Typeface fontRobotoMedium = Typeface.createFromAsset(getContext().getAssets(), "roboto_medium.ttf");
+    
+    // Answers are in roboto medium
+    /*for (Button optionButton : mOptionButtons ){
+    	optionButton.setTypeface(fontRobotoMedium);
+  	}*/
+    mScoreTextView.setTypeface(fontRobotoMedium);
+    mNameTextView.setTypeface(fontSofia);
+    //mCountdownTextView.setTypeface(fontRobotoMedium);
+    //mQuestionTextView.setTypeface(fontRobotoThin);
+    //mNameTextView.setTypeface(font);
+    //setConnecting(true);
   }
 
   /**

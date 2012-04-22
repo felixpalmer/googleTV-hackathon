@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -102,6 +103,21 @@ public class QuizActivity extends Activity {
       t.start();
       mServerThreads.add(st);
     }
+    
+    // Update fonts for added fanciness
+    //Typeface font_sofia 		= Typeface.createFromAsset(getAssets(), "sofia.otf");
+    Typeface fontRobotoLight 	= Typeface.createFromAsset(getAssets(), "roboto_light.ttf");
+    Typeface fontRobotoMedium = Typeface.createFromAsset(getAssets(), "roboto_medium.ttf");
+    
+    // Answers are in roboto medium
+    for (Button optionButton : mOptionButtons ){
+    	optionButton.setTypeface(fontRobotoMedium);
+  	}
+    mCountdownTextView.setTypeface(fontRobotoMedium);
+    mQuestionTextView.setTypeface(fontRobotoLight);
+    //mNameTextView.setTypeface(font);
+    //setConnecting(true);
+
   }
 
   private void findUIElements()

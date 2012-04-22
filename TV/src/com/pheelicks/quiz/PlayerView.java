@@ -41,7 +41,7 @@ public class PlayerView extends LinearLayout
     mNameTextView = (TextView)findViewById(R.id.connecting_text);
 
     // Change font
-    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "roboto_light.ttf");
+    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "roboto_medium.ttf");
     mNameTextView.setTypeface(font);
     setConnecting(true);
   }
