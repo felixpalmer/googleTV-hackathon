@@ -4,46 +4,51 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    
+    <Button
+        android:id="@+id/connect_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="connectPressed"
+        android:text="Connect" >
+    </Button>
+
     <TextView
-       android:text="Question"
-       android:gravity="left"
-      android:id="@+id/Question"
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-         />
-   
-    
-     <Button
+        android:id="@+id/Question"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Question" />
+
+    <Button
         android:id="@+id/Answer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendMessagePressed"
-        android:text="Answer1">
+        android:text="Answer1" >
     </Button>
 
-     <Button
-          android:id="@+id/Answer2"
+    <Button
+        android:id="@+id/Answer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendMessagePressed"
         android:text="Answer2" >
     </Button>
-    
-     <Button
-          android:id="@+id/Answer3"
+
+    <Button
+        android:id="@+id/Answer3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendMessagePressed"
         android:text="Answer3" >
     </Button>
-    
-     <Button
-          android:id="@+id/Answer4"
+
+    <Button
+        android:id="@+id/Answer4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendMessagePressed"
         android:text="Answer4" >
     </Button>
-     
+
 </LinearLayout>
