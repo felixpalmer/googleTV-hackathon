@@ -15,24 +15,34 @@
         android:background="#ff111122"
         android:orientation="vertical" >
 
-        <!-- Will remove -->
-        
-        <TextView
-            android:id="@+id/server_status"
-            android:layout_width="fill_parent"
-            android:layout_height="10dp"
-            android:textSize="6dp" >
-        </TextView>
-
-        <!-- Question textview -->
-
-        <TextView
-            android:id="@+id/question_tv"
-            style="@style/QuestionText"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp" >
-        </TextView>
+            android:orientation="horizontal" >
+
+            <!-- Question textview -->
+
+            <TextView
+                android:id="@+id/question_tv"
+                style="@style/QuestionText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="10dp" >
+            </TextView>
+
+            <!-- Countdown textview -->
+
+            <TextView
+                android:id="@+id/countdown_tv"
+                style="@style/QuestionText"
+                android:layout_width="100dp"
+                android:layout_weight="0"
+                android:layout_height="fill_parent"
+                android:padding="10dp"
+                android:text="0:15" >
+            </TextView>
+        </LinearLayout>
 
         <!-- Layout to house options and picture -->
 

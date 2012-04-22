@@ -47,8 +47,6 @@ public class QuizActivity extends Activity {
   // designate a port
   public static final int SERVERPORT = 13337;
 
-  private TextView serverStatus;
-
   private List<ServerThread> mServerThreads;
   private final static int MAX_CLIENTS = 4;
 
@@ -73,9 +71,6 @@ public class QuizActivity extends Activity {
 
     // Show first question
     displayQuestion(mQuestions.get(mCurrentQuestion));
-
-    // Setup server thread
-    serverStatus = (TextView) findViewById(R.id.server_status);
 
     SERVERIP = getLocalIpAddress();
 
@@ -278,7 +273,7 @@ public class QuizActivity extends Activity {
           mHandler.post(new Runnable() {
             @Override
             public void run() {
-              serverStatus.setText("Listening on IP: " + SERVERIP);
+              Log.d(TAG, "Listening on IP: " + SERVERIP);
             }
           });
           serverSocket = new ServerSocket(SERVERPORT + mClient);
@@ -294,7 +289,7 @@ public class QuizActivity extends Activity {
             mHandler.post(new Runnable() {
               @Override
               public void run() {
-                serverStatus.setText("Client " + mClient + "  connected.");
+                Log.d(TAG, "Client " + mClient + "  connected.");
               }
             });
 
@@ -313,7 +308,7 @@ public class QuizActivity extends Activity {
               mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                  serverStatus.setText("Oops. Connection interrupted. Please reconnect your phones.");
+                  Log.d(TAG, "Oops. Connection interrupted. Please reconnect your phones.");
                 }
               });
               e.printStackTrace();
@@ -323,7 +318,7 @@ public class QuizActivity extends Activity {
           mHandler.post(new Runnable() {
             @Override
             public void run() {
-              serverStatus.setText("Couldn't detect internet connection.");
+              Log.d(TAG, "Couldn't detect internet connection.");
             }
           });
         }
@@ -331,7 +326,7 @@ public class QuizActivity extends Activity {
         mHandler.post(new Runnable() {
           @Override
           public void run() {
-            serverStatus.setText("Error");
+            Log.d(TAG, "Error");
           }
         });
         e.printStackTrace();
