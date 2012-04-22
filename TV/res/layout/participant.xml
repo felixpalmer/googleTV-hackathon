@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
-    android:layout_height="100dp"
-    android:background="#ff000000"
-    android:orientation="vertical" >
+    android:layout_width="0dp"
+    android:layout_height="60dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_weight="0.25"
+    android:background="@drawable/player_bg"
+    android:orientation="horizontal" >
 
+    <!--
     <ImageView
         android:id="@+id/participant_iv"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
     </ImageView>
+    -->
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.75"
+        android:gravity="left"
+        android:textSize="20dp" >
+    </TextView>
 
     <TextView
         android:id="@+id/score_tv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" >
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.25"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="3"
+        android:textSize="28dp"
+        android:textStyle="bold" >
     </TextView>
 
 </LinearLayout>

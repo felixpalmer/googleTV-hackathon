@@ -3,20 +3,22 @@
 
     <style name="QuestionText">
         <item name="android:textColor">#ffffff</item>
-        <item name="android:shadowColor">#0000ff</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1.0</item>
-        <item name="android:shadowRadius">10</item>
-        <item name="android:textSize">36dp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:textSize">32dp</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="OptionButton">
-        <item name="android:textColor">#ccccff</item>
-        <item name="android:shadowColor">#666666</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1.0</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:textSize">28dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>  

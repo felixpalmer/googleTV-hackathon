@@ -34,10 +34,10 @@ public class ParticipantView extends LinearLayout
     View.inflate(context, R.layout.participant, this);
 
     // Find subviews
-    mImageView = (ImageView)findViewById(R.id.participant_iv);
+    //mImageView = (ImageView)findViewById(R.id.participant_iv);
     mScoreTextView = (TextView)findViewById(R.id.score_tv);
 
-    mImageView.setBackgroundColor(0xff005500); // So we can see it for now
+    //mImageView.setBackgroundColor(0xff005500); // So we can see it for now
     setScore(0);
   }
 
