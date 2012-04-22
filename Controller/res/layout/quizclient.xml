@@ -1,54 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+		
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical" 
+	    android:background="#333333"
+	    android:padding="20dp"
+	    >
+	
+	    <Button
+	        android:id="@+id/connect_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="connectPressed"
+	        android:text="Connect" >
+	    </Button>
+	
+	    <TextView
+	        android:id="@+id/Question"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="left"
+	        android:text="Which of the following did not appear in 'Aliens'?" 
+	        android:textColor="#ffffff"
+	        android:textSize="24dp"
+			android:lineSpacingExtra="2dp"
+			android:layout_marginBottom="20dp"
+	       	/>
+	
+	    <Button
+	        android:id="@+id/Answer1"
+	        android:text="They mostly come at night ... Mostly." 
+	
+	        android:onClick="sendMessagePressed"
+	
+	        android:background="@drawable/option_a"
+			style="@style/GenericButton"
+	        >
+	    </Button>
+	
+	    <Button
+	        android:id="@+id/Answer2"
+	        android:text="Game over, man. Game over!" 
+	
+	        android:onClick="sendMessagePressed"
+	
+	        android:background="@drawable/option_b"
+			style="@style/GenericButton"
+	        >
+	    </Button>
+	
+	    <Button
+	        android:id="@+id/Answer3"
+	        android:text="Get away from her, you bitch!" 
+	
+	        android:onClick="sendMessagePressed"
+	
+	        android:background="@drawable/option_c"
+			style="@style/GenericButton"
+	        >
+	    </Button>
+	
+	    <Button
+	        android:id="@+id/Answer4"
+	        android:text="I'll be back." 
+	
+	        android:onClick="sendMessagePressed"
+	
+	        android:background="@drawable/option_d"
+			style="@style/GenericButton"
+	        >
+	    </Button>
+	
+	</LinearLayout>
 
-    <Button
-        android:id="@+id/connect_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="connectPressed"
-        android:text="Connect" >
-    </Button>
-
-    <TextView
-        android:id="@+id/Question"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="Question" />
-
-    <Button
-        android:id="@+id/Answer1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="answerPressed"
-        android:text="Answer1" >
-    </Button>
-
-    <Button
-        android:id="@+id/Answer2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="answerPressed"
-        android:text="Answer2" >
-    </Button>
-
-    <Button
-        android:id="@+id/Answer3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="answerPressed"
-        android:text="Answer3" >
-    </Button>
-
-    <Button
-        android:id="@+id/Answer4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="answerPressed"
-        android:text="Answer4" >
-    </Button>
-
-</LinearLayout>
+</ScrollView>
