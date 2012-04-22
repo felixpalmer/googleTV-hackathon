@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,11 +26,12 @@ import android.widget.TextView;
 public class QuizClientActivity extends Activity {
   private static final String TAG = "QuizClientActivity";
 
-  private static final String SERVER_IP = "192.168.51.177";
+  // Will be read from prefs
+  private String mServerIp;
+  private int mClientId = 1;
 
   private boolean connected = false;
   private static final int SERVERPORT = 13337;
-  private static final int CLIENT_ID = 1; // TODO do not hard code
   private PrintWriter mOutWriter;
   private BufferedReader mInputReader;
 
@@ -47,7 +49,12 @@ public class QuizClientActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.quizclient);
 
-    Log.i(TAG, "Started client " + CLIENT_ID);
+    // Get network config from prefs
+    SharedPreferences prefs = getSharedPreferences("default", MODE_WORLD_READABLE);
+    mServerIp = prefs.getString(Prefs.IP, "");
+    mClientId = prefs.getInt(Prefs.CLIENT_ID, -1);
+
+    Log.i(TAG, "Started client " + mClientId);
 
     // Find views
     mConnectLayout = (LinearLayout)findViewById(R.id.connect_container);
@@ -61,7 +68,7 @@ public class QuizClientActivity extends Activity {
   public void connectPressed(View view)
   {
     if (!connected) {
-      Thread cThread = new Thread(new ClientThread(CLIENT_ID));
+      Thread cThread = new Thread(new ClientThread(mClientId));
       cThread.start();
     }
   }
@@ -134,7 +141,7 @@ public class QuizClientActivity extends Activity {
     //((RadioButton)v).toggle();
     uncheckAllExcept((RadioButton)v);
     Log.d(TAG, "Selected = " + ((Button)v).isSelected());
-    sendMessageToServer(CLIENT_ID, JSONMessages.postAnswer(mCurrentQuestion));
+    sendMessageToServer(mClientId, JSONMessages.postAnswer(mCurrentQuestion));
   }
 
   // Use methods here to send/receive message to/from server
@@ -195,7 +202,7 @@ public class QuizClientActivity extends Activity {
     public void run() {
       Socket socket = null;
       try {
-        InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+        InetAddress serverAddr = InetAddress.getByName(mServerIp);
         Log.d(TAG, "Connecting client " + mClient + "...");
         socket = new Socket(serverAddr, SERVERPORT + mClient);
         Log.i(TAG, "Connected to server on port: " + (SERVERPORT + mClient));
