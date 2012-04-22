@@ -1,6 +1,8 @@
 package com.pheelicks.quizcontroller;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -25,6 +27,7 @@ public class ClientActivity extends Activity {
   private boolean connected = false;
   private static final int SERVERPORT = 8080;
   private PrintWriter mOutWriter;
+  private BufferedReader mInputReader;
 
   private Handler handler = new Handler();
 
@@ -71,11 +74,16 @@ public class ClientActivity extends Activity {
               Log.d("ClientActivity", "C: Connecting...");
               Socket socket = new Socket(serverAddr, SERVERPORT);
               connected = true;
+              mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket
+                                                                                     .getOutputStream())), true);
+              mInputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
               while (connected) {
                   try {
-                      mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket
-                                  .getOutputStream())), true);
-                          // where you issue the commands
+                      //read line(s)
+                      String st = mInputReader.readLine();
+                      Log.d("ClientActivity", "Got line: " + st);
+
                   } catch (Exception e) {
                       Log.e("ClientActivity", "S: Error", e);
                   }
@@ -88,4 +96,5 @@ public class ClientActivity extends Activity {
           }
       }
   }
+
 }

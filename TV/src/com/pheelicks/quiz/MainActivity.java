@@ -1,8 +1,11 @@
 package com.pheelicks.quiz;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -40,6 +43,9 @@ public class MainActivity extends Activity {
   public static final int SERVERPORT = 8080;
 
   private ServerSocket serverSocket;
+  private PrintWriter mOutWriter;
+  private BufferedReader mInputReader;
+
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -147,15 +153,18 @@ public class MainActivity extends Activity {
                     });
 
                     try {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        mInputReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
+
                         String line = null;
-                        while ((line = in.readLine()) != null) {
+                        while ((line = mInputReader.readLine()) != null) {
                             Log.d("ServerActivity", line);
+                            final String finalLine = line;
+                            mOutWriter.println("OK");
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // do whatever you want to the front end
-                                    // this is where you can be creative
+                                  serverStatus.setText("Got message: " + finalLine);
                                 }
                             });
                         }
