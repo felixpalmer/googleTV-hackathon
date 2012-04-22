@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -110,18 +111,31 @@ public class QuizActivity extends Activity {
     mImageView = (ImageView)findViewById(R.id.image);
   }
 
-  private void displayQuestion(Question q)
+  private void displayQuestion(final Question q)
   {
     mQuestionTextView.setText(q.title);
     for(int i = 0; i < 4; i++)
     {
-      mOptionButtons.get(i).setText(q.answers.get(i));
-
       Animation anim = AnimationUtils.loadAnimation(this, R.anim.option_out);
       anim.setStartOffset(i*100);
-      anim.setRepeatMode(Animation.REVERSE);
-      anim.setRepeatCount(2);
       mOptionButtons.get(i).setAnimation(anim);
+      final int finalI = i;
+      anim.setAnimationListener(new AnimationListener()
+      {
+        @Override
+        public void onAnimationStart(Animation animation){}
+        @Override
+        public void onAnimationRepeat(Animation animation){}
+
+        @Override
+        public void onAnimationEnd(Animation animation)
+        {
+          mOptionButtons.get(finalI).setText(q.answers.get(finalI));
+
+          Animation anim = AnimationUtils.loadAnimation(QuizActivity.this, R.anim.option_in);
+          mOptionButtons.get(finalI).setAnimation(anim);
+        }
+      });
     }
 
     int imageResId = getResources().getIdentifier(q.image, "drawable", getPackageName());
@@ -133,8 +147,6 @@ public class QuizActivity extends Activity {
     {
       mImageView.setImageResource(imageResId);
     }
-
-
   }
 
   private List<Question> loadQuestions()
