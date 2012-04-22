@@ -64,6 +64,7 @@
             <!-- Picture, will take up two thirds of the width -->
 
             <ImageView
+                android:id="@+id/image"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="15dp"
@@ -71,7 +72,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="0.55"
-                android:background="#ffaaaaaa" >
+                android:background="#ffaaaaaa"
+                android:scaleType="fitXY" >
             </ImageView>
 
             <!-- Layout to house options, will take up a third of the width -->

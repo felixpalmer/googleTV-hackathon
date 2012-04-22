@@ -6,6 +6,7 @@
     <wrong>Newt</wrong>
     <wrong>Hicks</wrong>
     <wrong>George Lucas</wrong>
+    <image>ripley</image>
   </question>
 
   <question>
@@ -14,6 +15,8 @@
     <wrong>Mountain View</wrong>
     <wrong>Palo Alto</wrong>
     <wrong>San Jose</wrong>
+    <image>ripley</image>
+
   </question>
 
   <question>
@@ -22,5 +25,6 @@
     <wrong>Pig trotters</wrong>
     <wrong>Otter ears</wrong>
     <wrong>McDonalds</wrong>
+    <image>ripley</image>
   </question>
 </questions>

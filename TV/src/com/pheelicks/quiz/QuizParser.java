@@ -18,6 +18,7 @@ public class QuizParser
   private static final String TITLE_TAG = "title";
   private static final String CORRECT_TAG = "correct";
   private static final String WRONG_TAG = "wrong";
+  private static final String IMAGE_TAG = "image";
 
   /**
    * Returns an ArrayList of Questions from the quiz_data.xml file
@@ -79,6 +80,10 @@ public class QuizParser
         else if(WRONG_TAG.equals(currentTag))
         {
           currentQuestion.answers.add(xpp.getText());
+        }
+        else if(IMAGE_TAG.equals(currentTag))
+        {
+          currentQuestion.image = xpp.getText();
         }
       }
 

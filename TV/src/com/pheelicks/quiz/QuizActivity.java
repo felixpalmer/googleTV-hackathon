@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity {
@@ -37,6 +38,8 @@ public class QuizActivity extends Activity {
   private List<ParticipantView> mParticipantViews;
   private List<Question> mQuestions;
   private TextView mCountdownTextView;
+  private ImageView mImageView;
+
 
   private int mCurrentQuestion;
   private Handler mHandler = new Handler();
@@ -102,6 +105,7 @@ public class QuizActivity extends Activity {
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_3));
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_4));
     mCountdownTextView = (TextView)findViewById(R.id.countdown_tv);
+    mImageView = (ImageView)findViewById(R.id.image);
   }
 
   private void displayQuestion(Question q)
@@ -111,6 +115,16 @@ public class QuizActivity extends Activity {
     mOptionButtons.get(1).setText(q.answers.get(1));
     mOptionButtons.get(2).setText(q.answers.get(2));
     mOptionButtons.get(3).setText(q.answers.get(3));
+
+    int imageResId = getResources().getIdentifier(q.image, "drawable", getPackageName());
+    if(imageResId == 0)
+    {
+      Log.w(TAG, "No image found for id: " + q.image);
+    }
+    else
+    {
+      mImageView.setImageResource(imageResId);
+    }
   }
 
   private List<Question> loadQuestions()
