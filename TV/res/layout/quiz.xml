@@ -170,7 +170,11 @@
         android:layout_height="fill_parent"
         android:background="@drawable/home_bg"
         android:orientation="vertical"
-        android:padding="60dp" >
+        android:paddingLeft="100dp" 
+        android:paddingRight="100dp" 
+        android:paddingTop="50dp" 
+        android:paddingBottom="60dp" 
+        >
 
         <!-- Game headline -->
 
@@ -189,22 +193,23 @@
             android:layout_height="0dp"
             android:layout_marginBottom="30dp"
             android:layout_marginTop="30dp"
-            android:layout_weight="0.75" >
+            android:layout_weight="0.9" >
 
             <!-- Layout to house options, will take up a third of the width -->
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="0.48"
+                android:layout_weight="0.78"
                 android:background="@drawable/window"
                 android:orientation="vertical"
+                android:layout_marginLeft="20dp"
                 android:padding="8dp" >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_weight="0.2" >
 
                     <com.pheelicks.quiz.PlayerView
                         android:id="@+id/player_1"
@@ -216,7 +221,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_weight="0.2" >
 
                     <com.pheelicks.quiz.PlayerView
                         android:id="@+id/player_2"
@@ -228,7 +233,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_weight="0.2" >
 
                     <com.pheelicks.quiz.PlayerView
                         android:id="@+id/player_3"
@@ -240,7 +245,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_weight="0.2" >
 
                     <com.pheelicks.quiz.PlayerView
                         android:id="@+id/player_4"
@@ -248,32 +253,59 @@
                         android:layout_height="fill_parent" >
                     </com.pheelicks.quiz.PlayerView>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2" >
+
+                
+            <Button
+	             android:layout_width="100dp"
+   		         android:layout_height="wrap_content"
+       		     android:layout_gravity="center"
+            	 android:onClick="playPressed"
+            android:layout_weight="0.68"
+           		 android:text="Play!" >
+                
+           		<requestFocus />
+        	</Button>
+        
+                </LinearLayout>
             </LinearLayout>
 
             <!-- Picture, will take up a third of the width -->
 
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="50dp" 
+                android:orientation="vertical">
+            
+            
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="8dp"
-                android:layout_weight="0.55"
+	            android:layout_gravity="center"
                 android:src="@drawable/elephant" >
             </ImageView>
+            
+        		<ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/qr" >
+        </ImageView>
+
+            
+        </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0"
-            android:onClick="playPressed"
-            android:text="Play!" >
-
-            <requestFocus />
-        </Button>
     </LinearLayout>
 
 </RelativeLayout>

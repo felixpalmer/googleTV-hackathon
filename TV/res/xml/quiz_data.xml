@@ -61,6 +61,46 @@
     <wrong>George Lucas</wrong>
     <image>aliens</image>
   </question>
+  
+      <question>
+    <title>What is "The meaning of Everything"?</title>
+    <wrong>41</wrong>
+    <wrong>The dolphins</wrong>
+    <wrong>Space Ship</wrong>
+    <correct>Google</correct>
+    <image>dolphin</image>
+</question>
+    
+ <question>
+    <title>Who is this?</title>
+    <wrong>Bugs Bunny</wrong>
+    <wrong>Kanye West</wrong>
+    <correct>Elmo</correct>
+    <wrong>Sponge Bob</wrong>
+    <image>elmo</image>
+  </question>
+  
+ 
+ <question>
+    <title>Name this Famous Landmark</title>
+    <wrong>The White House</wrong>
+    <wrong>Wrigley Field</wrong>
+    <correct>The Eiffel Tower</correct>
+    <wrong>A building at Google</wrong>
+    <image>eiffel</image>
+  </question>
+  
+  <question>
+    <title>What year was Google founded?</title>
+    <wrong>February 1986</wrong>
+    <wrong>October 1982</wrong>
+    <wrong>September 1928</wrong>
+    <correct>Free booze, y'all.</correct>
+    <image>google</image>
+</question>
+
+
+   
 <!-- 
   <question>
     <title>Where is best?</title>
