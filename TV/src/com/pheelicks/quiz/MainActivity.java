@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
@@ -34,18 +36,16 @@ public class MainActivity extends Activity {
   private Handler mHandler = new Handler();
   private final static int QUESTION_TIMER = 5000; // 5 seconds between questions
 
-  private TextView serverStatus;
-
   // default ip
   public static String SERVERIP = "192.168.51.177";
 
   // designate a port
-  public static final int SERVERPORT = 8080;
+  public static final int SERVERPORT = 13337;
 
-  private ServerSocket serverSocket;
-  private PrintWriter mOutWriter;
-  private BufferedReader mInputReader;
+  private TextView serverStatus;
 
+  private List<ServerThread> mServerThreads;
+  private final static int MAX_CLIENTS = 4;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,15 @@ public class MainActivity extends Activity {
 
     SERVERIP = getLocalIpAddress();
 
-    Thread fst = new Thread(new ServerThread());
-    fst.start();
+    // Create 4 threads for 4 clients
+    mServerThreads = new ArrayList<MainActivity.ServerThread>(MAX_CLIENTS);
+    for(int i = 0; i < MAX_CLIENTS; i++)
+    {
+      ServerThread st = new ServerThread(i);
+      Thread t = new Thread(st);
+      t.start();
+      mServerThreads.add(st);
+    }
   }
 
   private void findUIElements()
@@ -128,101 +135,144 @@ public class MainActivity extends Activity {
   };
 
 
+  // Use methods here to send/receive message to/from clients
+  public void sendMessageToClient(int client, JSONObject message)
+  {
+    if(client >= MAX_CLIENTS)
+    {
+      Log.e(TAG, "Client id out of range: " + client);
+      return;
+    }
+    mServerThreads.get(client).sendMessageToClient(message);
+  }
+
+  public void receivedMessageFromClient(int client, JSONObject message)
+  {
+    Log.d(TAG, "Received message from client " + client + ": " + message.toString());
+//    serverStatus.setText("Got message: " + message.toString());
+  }
+
   // Server code
   public class ServerThread implements Runnable {
+    private int mClient;
+
+    private ServerSocket serverSocket;
+    private PrintWriter mOutWriter;
+    private BufferedReader mInputReader;
+
+    public ServerThread(int client)
+    {
+      mClient = client;
+    }
+
+    public void sendMessageToClient(JSONObject message)
+    {
+      if(mOutWriter != null)
+      {
+        try
+        {
+          message.put(JSONAPI.CLIENT, mClient);
+        }
+        catch (JSONException e)
+        {
+          Log.e(TAG, Log.getStackTraceString(e));
+        }
+        String stringified = message.toString();
+        Log.d(TAG, "Sending to client " + mClient + ": " + stringified);
+        mOutWriter.println(stringified);
+      }
+    }
 
     @Override
     public void run() {
-        try {
-            if (SERVERIP != null) {
-              mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        serverStatus.setText("Listening on IP: " + SERVERIP);
-                    }
-                });
-                serverSocket = new ServerSocket(SERVERPORT);
-                while (true) {
-                    // listen for incoming clients
-                    Socket client = serverSocket.accept();
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            serverStatus.setText("Connected.");
-                        }
-                    });
-
-                    try {
-                        mInputReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                        mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
-
-                        String line = null;
-                        while ((line = mInputReader.readLine()) != null) {
-                            Log.d("ServerActivity", line);
-                            final String finalLine = line;
-                            mOutWriter.println("OK");
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                  serverStatus.setText("Got message: " + finalLine);
-                                }
-                            });
-                        }
-                        break;
-                    } catch (Exception e) {
-                      mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                serverStatus.setText("Oops. Connection interrupted. Please reconnect your phones.");
-                            }
-                        });
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-              mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        serverStatus.setText("Couldn't detect internet connection.");
-                    }
-                });
-            }
-        } catch (Exception e) {
+      try {
+        if (SERVERIP != null) {
           mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+              serverStatus.setText("Listening on IP: " + SERVERIP);
+            }
+          });
+          serverSocket = new ServerSocket(SERVERPORT + mClient);
+          Log.i(TAG, "Started server on port: " + (SERVERPORT + mClient));
+          while (true) {
+            // listen for incoming clients
+            Socket client = serverSocket.accept();
+            mHandler.post(new Runnable() {
+              @Override
+              public void run() {
+                serverStatus.setText("Connected.");
+              }
+            });
+
+            try {
+              mInputReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+              mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
+
+              String line = null;
+              while ((line = mInputReader.readLine()) != null) {
+                JSONObject json = new JSONObject(line);
+                receivedMessageFromClient(mClient, json);
+                sendMessageToClient(JSONMessages.OK());
+              }
+              break;
+            } catch (Exception e) {
+              mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    serverStatus.setText("Error");
+                  serverStatus.setText("Oops. Connection interrupted. Please reconnect your phones.");
                 }
-            });
-            e.printStackTrace();
-        }
-    }
-}
-
-// gets the ip address of your phone's network
-private String getLocalIpAddress() {
-    try {
-        for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-            NetworkInterface intf = en.nextElement();
-            for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                InetAddress inetAddress = enumIpAddr.nextElement();
-                if (!inetAddress.isLoopbackAddress()) { return inetAddress.getHostAddress().toString(); }
+              });
+              e.printStackTrace();
             }
+          }
+        } else {
+          mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+              serverStatus.setText("Couldn't detect internet connection.");
+            }
+          });
         }
+      } catch (Exception e) {
+        mHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            serverStatus.setText("Error");
+          }
+        });
+        e.printStackTrace();
+      }
+    }
+  }
+
+  // gets the ip address of your phone's network
+  private String getLocalIpAddress() {
+    try {
+      for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+        NetworkInterface intf = en.nextElement();
+        for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+          InetAddress inetAddress = enumIpAddr.nextElement();
+          if (!inetAddress.isLoopbackAddress()) { return inetAddress.getHostAddress().toString(); }
+        }
+      }
     } catch (SocketException ex) {
-        Log.e("ServerActivity", ex.toString());
+      Log.e("ServerActivity", ex.toString());
     }
     return null;
-}
+  }
 
-@Override
-protected void onStop() {
+  @Override
+  protected void onStop() {
     super.onStop();
-    try {
-         // make sure you close the socket upon exiting
-         serverSocket.close();
-     } catch (IOException e) {
-         e.printStackTrace();
-     }
-}
+    for(ServerThread st : mServerThreads)
+    {
+      try {
+        // Close the socket upon exiting
+        st.serverSocket.close();
+      } catch (IOException e) {
+        Log.e(TAG, Log.getStackTraceString(e));
+      }
+    }
+  }
 }

@@ -1,4 +1,4 @@
-package com.pheelicks.quizcontroller;
+package com.pheelicks.quiz;
 
 public interface JSONAPI
 {

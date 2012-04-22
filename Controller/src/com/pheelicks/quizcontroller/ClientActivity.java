@@ -29,7 +29,7 @@ public class ClientActivity extends Activity {
   private String serverIpAddress = "";
 
   private boolean connected = false;
-  private static final int SERVERPORT = 8080;
+  private static final int SERVERPORT = 13337;
   private static final int CLIENT_ID = 1; // TODO do not hard code
   private PrintWriter mOutWriter;
   private BufferedReader mInputReader;
@@ -91,7 +91,7 @@ public class ClientActivity extends Activity {
         Log.e(TAG, Log.getStackTraceString(e));
       }
       String stringified = message.toString();
-      Log.d(TAG, "Sending to client " + client + ": " + message.toString());
+      Log.d(TAG, "Sending to server:" + stringified);
       mOutWriter.println(stringified);
     }
   }
@@ -99,7 +99,7 @@ public class ClientActivity extends Activity {
   public void receivedMessageFromServer(int client, JSONObject message)
   {
     String stringified = message.toString();
-    Log.d(TAG, "Received message from client " + client + ": " + message.toString());
+    Log.d(TAG, "Received message from server: " + stringified);
   }
 
   public class ClientThread implements Runnable {
@@ -116,6 +116,8 @@ public class ClientActivity extends Activity {
         InetAddress serverAddr = InetAddress.getByName(serverIpAddress);
         Log.d("ClientActivity", "C: Connecting...");
         Socket socket = new Socket(serverAddr, SERVERPORT + mClient);
+        Log.i(TAG, "Connected to server on port: " + (SERVERPORT + mClient));
+
         connected = true;
         mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket
                                                                                .getOutputStream())), true);
@@ -123,10 +125,12 @@ public class ClientActivity extends Activity {
 
         while (connected) {
           try {
-            //read line(s)
             String st = mInputReader.readLine();
-//            JSONObject json = new JSONObject(st);
-//            receivedMessageFromServer(mClient, json);
+            if(st != null)
+            {
+              JSONObject json = new JSONObject(st);
+              receivedMessageFromServer(mClient, json);
+            }
 
           } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
