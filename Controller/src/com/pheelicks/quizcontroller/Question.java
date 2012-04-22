@@ -1,4 +1,4 @@
-package com.pheelicks.quiz;
+package com.pheelicks.quizcontroller;
 
 import java.util.ArrayList;
 import java.util.List;
