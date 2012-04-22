@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <questions>
   <question>
-    <title>Favorite colour?</title>
-    <correct>Blue</correct>
-    <wrong>Green</wrong>
-    <wrong>Red</wrong>
-    <wrong>Yellow</wrong>
+    <title>Who of the following did not appear in “Aliens”?</title>
+    <correct>Ripley</correct>
+    <wrong>Newt</wrong>
+    <wrong>Hicks</wrong>
+    <wrong>George Lucas</wrong>
   </question>
 
   <question>

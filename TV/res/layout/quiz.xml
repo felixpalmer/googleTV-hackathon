@@ -2,24 +2,30 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="35dp" 
     android:background="@drawable/bg"
-    >
+    android:orientation="vertical"
+    android:padding="40dp" >
 
     <!-- Safe area defined where all content should go. Anything outside may be clipped -->
 
     <LinearLayout
         android:id="@+id/safe_area"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#ff111122"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
+
+        <!-- android:background="#ff111122" -->
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
+
+            <!--
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="26dp"
+            -->
+
 
             <!-- Question textview -->
 
@@ -27,9 +33,9 @@
                 android:id="@+id/question_tv"
                 style="@style/QuestionText"
                 android:layout_width="0dp"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:padding="10dp" >
+                android:paddingLeft="10dp" >
             </TextView>
 
             <!-- Countdown textview -->
@@ -38,9 +44,10 @@
                 android:id="@+id/countdown_tv"
                 style="@style/QuestionText"
                 android:layout_width="100dp"
-                android:layout_weight="0"
                 android:layout_height="fill_parent"
-                android:padding="10dp"
+                android:layout_weight="0"
+                android:gravity="right"
+                android:paddingRight="10dp"
                 android:text="0:15" >
             </TextView>
         </LinearLayout>
@@ -49,7 +56,9 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="1" >
 
             <!-- Picture, will take up two thirds of the width -->
@@ -57,17 +66,20 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="0.67"
-                android:background="#ff221111" >
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="0.55"
+                android:background="#ffaaaaaa" >
             </ImageView>
-            
+
             <!-- Layout to house options, will take up a third of the width -->
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="0.33"
-                android:background="#ff112211"
+                android:layout_weight="0.48"
                 android:orientation="vertical" >
 
                 <Button
@@ -75,7 +87,9 @@
                     style="@style/OptionButton"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/option_a" >
                 </Button>
 
                 <Button
@@ -83,7 +97,9 @@
                     style="@style/OptionButton"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/option_b" >
                 </Button>
 
                 <Button
@@ -91,7 +107,9 @@
                     style="@style/OptionButton"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/option_c" >
                 </Button>
 
                 <Button
@@ -99,10 +117,11 @@
                     style="@style/OptionButton"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.25" >
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/option_d" >
                 </Button>
             </LinearLayout>
-
         </LinearLayout>
 
         <!-- Layout to house participants, TODO don't hardcode height!!! -->
@@ -110,34 +129,34 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp" >
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
             <com.pheelicks.quiz.ParticipantView
                 android:id="@+id/participant_1"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.25" >
             </com.pheelicks.quiz.ParticipantView>
 
             <com.pheelicks.quiz.ParticipantView
                 android:id="@+id/participant_2"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.25" >
             </com.pheelicks.quiz.ParticipantView>
 
             <com.pheelicks.quiz.ParticipantView
                 android:id="@+id/participant_3"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.25" >
             </com.pheelicks.quiz.ParticipantView>
 
             <com.pheelicks.quiz.ParticipantView
                 android:id="@+id/participant_4"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.25" >
             </com.pheelicks.quiz.ParticipantView>
         </LinearLayout>
