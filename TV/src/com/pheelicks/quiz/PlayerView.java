@@ -1,6 +1,7 @@
 package com.pheelicks.quiz;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,6 +39,10 @@ public class PlayerView extends LinearLayout
     mProgressBar = (ProgressBar)findViewById(R.id.connecting_progress);
     mCheckImage = (ImageView)findViewById(R.id.connecting_check_image);
     mNameTextView = (TextView)findViewById(R.id.connecting_text);
+
+    // Change font
+    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "roboto_light.ttf");
+    mNameTextView.setTypeface(font);
     setConnecting(true);
   }
 
