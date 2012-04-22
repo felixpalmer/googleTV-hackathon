@@ -41,10 +41,13 @@ public class QuizActivity extends Activity {
   private TextView mQuestionTextView;
   private List<Button> mOptionButtons;
   private List<ParticipantView> mParticipantViews;
+  private List<PlayerView> mPlayerViews;
   private List<Question> mQuestions;
   private TextView mCountdownTextView;
   private ImageView mImageView;
   private LinearLayout mHomeScreen;
+
+  private static final String[] NAMES = {"Felix", "Kent", "Stephan", "Veda"};
 
   private int mCurrentQuestion;
   private Handler mHandler = new Handler();
@@ -101,6 +104,7 @@ public class QuizActivity extends Activity {
     mQuestionTextView = (TextView)findViewById(R.id.question_tv);
     mOptionButtons = new ArrayList<Button>(4);
     mParticipantViews = new ArrayList<ParticipantView>(4);
+    mPlayerViews = new ArrayList<PlayerView>(4);
     mOptionButtons.add((Button)findViewById(R.id.option_1));
     mOptionButtons.add((Button)findViewById(R.id.option_2));
     mOptionButtons.add((Button)findViewById(R.id.option_3));
@@ -109,20 +113,41 @@ public class QuizActivity extends Activity {
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_2));
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_3));
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_4));
+    mPlayerViews.add((PlayerView)findViewById(R.id.player_1));
+    mPlayerViews.add((PlayerView)findViewById(R.id.player_2));
+    mPlayerViews.add((PlayerView)findViewById(R.id.player_3));
+    mPlayerViews.add((PlayerView)findViewById(R.id.player_4));
+
     mCountdownTextView = (TextView)findViewById(R.id.countdown_tv);
     mImageView = (ImageView)findViewById(R.id.image);
     mHomeScreen = (LinearLayout)findViewById(R.id.home_screen);
 
     // For now, just hack in some names
-    mParticipantViews.get(0).setName("Felix");
-    mParticipantViews.get(1).setName("Kent");
-    mParticipantViews.get(2).setName("Stephan");
-    mParticipantViews.get(3).setName("Veda");
+    for(int p = 0; p < MAX_CLIENTS; p++)
+    {
+      mParticipantViews.get(p).setName(NAMES[p]);
+    }
+  }
+
+  public void playerConnected(final int player)
+  {
+    runOnUiThread(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        mPlayerViews.get(player).setName(NAMES[player]);
+        mPlayerViews.get(player).setConnecting(false);
+      }
+    });
   }
 
   public void playPressed(View view)
   {
     mHomeScreen.setVisibility(View.GONE);
+
+    // TODO Check players are here
+    startGame();
   }
 
   private void displayQuestion(final Question q)
@@ -359,8 +384,8 @@ public class QuizActivity extends Activity {
             mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
             sendMessageToClient(JSONMessages.OK());
 
-            // TODO wait for more clients
-            startGame();
+            // Have connected player
+            playerConnected(mClient);
 
             // Send first question to client
             sendQuestionToClient(mClient, mQuestions.get(mCurrentQuestion));

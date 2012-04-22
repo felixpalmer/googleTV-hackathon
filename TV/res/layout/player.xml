@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="horizontal"
     android:gravity="center_vertical" >
 
     <ProgressBar
         android:id="@+id/connecting_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:indeterminateOnly="true" >
     </ProgressBar>
 
     <ImageView
         android:id="@+id/connecting_check_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/checkmark" >
     </ImageView>
@@ -25,7 +26,8 @@
         style="@style/StartScreenPlayerText"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="10dp" >
+        android:layout_margin="10dp"
+        android:text="@string/connecting" >
     </TextView>
 
 </LinearLayout>
