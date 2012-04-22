@@ -2,6 +2,7 @@ package com.pheelicks.quizcontroller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class QuizClientActivity extends Activity {
@@ -27,6 +29,7 @@ public class QuizClientActivity extends Activity {
   private static final int CLIENT_ID = 1; // TODO do not hard code
   private PrintWriter mOutWriter;
   private BufferedReader mInputReader;
+  private Button mConnectButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +37,35 @@ public class QuizClientActivity extends Activity {
     setContentView(R.layout.quizclient);
 
     Log.i(TAG, "Started client " + CLIENT_ID);
+    mConnectButton = (Button)findViewById(R.id.connect_btn);
   }
 
   public void connectPressed(View view)
   {
     if (!connected) {
-        Thread cThread = new Thread(new ClientThread(CLIENT_ID));
-        cThread.start();
+      Thread cThread = new Thread(new ClientThread(CLIENT_ID));
+      cThread.start();
     }
+  }
+
+  // Will get called when the connection state to the server changes
+  public void setConnected(final boolean connected)
+  {
+    runOnUiThread(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        if(connected)
+        {
+          mConnectButton.setVisibility(View.GONE);
+        }
+        else
+        {
+          mConnectButton.setVisibility(View.VISIBLE);
+        }
+      }
+    });
   }
 
   public void sendMessagePressed(View view)
@@ -95,13 +119,17 @@ public class QuizClientActivity extends Activity {
 
     @Override
     public void run() {
+      Socket socket = null;
       try {
         InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
         Log.d(TAG, "Connecting client " + mClient + "...");
-        Socket socket = new Socket(serverAddr, SERVERPORT + mClient);
+        socket = new Socket(serverAddr, SERVERPORT + mClient);
         Log.i(TAG, "Connected to server on port: " + (SERVERPORT + mClient));
 
+        // Hide connect button
         connected = true;
+        setConnected(connected);
+
         mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket
                                                                                .getOutputStream())), true);
         mInputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -114,18 +142,31 @@ public class QuizClientActivity extends Activity {
               JSONObject json = new JSONObject(st);
               receivedMessageFromServer(mClient, json);
             }
-
-          } catch (Exception e) {
+          } catch (JSONException e) {
             Log.e(TAG, Log.getStackTraceString(e));
           }
         }
-        socket.close();
-        Log.d(TAG, "Closed client " + mClient + " socket");
       }
       catch (Exception e)
       {
         Log.d(TAG, "Error with socket on client " + mClient);
         connected = false;
+        setConnected(connected);
+      }
+      finally
+      {
+        if(socket != null && !socket.isClosed())
+        {
+          try
+          {
+            socket.close();
+          }
+          catch (IOException e)
+          {
+            Log.e(TAG, Log.getStackTraceString(e));
+          }
+          Log.d(TAG, "Closed client " + mClient + " socket");
+        }
       }
     }
   }
