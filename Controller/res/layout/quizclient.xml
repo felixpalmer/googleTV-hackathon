@@ -2,13 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ScrollView01"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg" >
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#333333"
         android:orientation="vertical"
         android:padding="20dp" >
 
@@ -25,11 +25,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:gravity="left"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
             android:lineSpacingExtra="2dp"
             android:text="Which of the following did not appear in &apos;Aliens&apos;?"
             android:textColor="#ffffff"
-            android:textSize="24dp" />
+            android:textSize="26dp" />
 
         <RadioGroup
             android:id="@+id/options"
