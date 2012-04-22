@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class QuizClientActivity extends Activity {
   private static final String TAG = "QuizClientActivity";
@@ -30,6 +31,7 @@ public class QuizClientActivity extends Activity {
   private PrintWriter mOutWriter;
   private BufferedReader mInputReader;
   private Button mConnectButton;
+  private Question mCurrentQuestion;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,21 @@ public class QuizClientActivity extends Activity {
     }
   }
 
+  private void updateWithQuestion(Question question)
+  {
+    mCurrentQuestion = question;
+    TextView q = (TextView)findViewById(R.id.Question);
+    Button a1 = (Button)findViewById(R.id.Answer1);
+    Button a2 = (Button)findViewById(R.id.Answer2);
+    Button a3 = (Button)findViewById(R.id.Answer3);
+    Button a4 = (Button)findViewById(R.id.Answer4);
+    q.setText(question.title);
+    a1.setText(question.answers.get(0));
+    a2.setText(question.answers.get(1));
+    a3.setText(question.answers.get(2));
+    a4.setText(question.answers.get(3));
+  }
+
   // Use methods here to send/receive message to/from server
   public void sendMessageToServer(int client, JSONObject message)
   {
@@ -107,6 +124,28 @@ public class QuizClientActivity extends Activity {
   {
     String stringified = message.toString();
     Log.d(TAG, "Received message from server: " + stringified);
+
+    try
+    {
+      String msgType = message.getString(JSONAPI.MSG_TYPE);
+
+      if(JSONAPI.NEW_QUESTION.equalsIgnoreCase(msgType))
+      {
+        Log.d(TAG, "Got new question");
+        Question q = new Question(message.getJSONObject(JSONAPI.MSG_VALUE));
+        updateWithQuestion(q);
+      }
+      else
+      {
+        Log.w(TAG, "Received unknown message type from server: " + msgType);
+      }
+
+    }
+    catch (JSONException e)
+    {
+      Log.e(TAG, Log.getStackTraceString(e));
+    }
+
   }
 
   public class ClientThread implements Runnable {
@@ -139,8 +178,15 @@ public class QuizClientActivity extends Activity {
             String st = mInputReader.readLine();
             if(st != null)
             {
-              JSONObject json = new JSONObject(st);
-              receivedMessageFromServer(mClient, json);
+              final JSONObject json = new JSONObject(st);
+              runOnUiThread(new Runnable()
+              {
+                @Override
+                public void run()
+                {
+                  receivedMessageFromServer(mClient, json);
+                }
+              });
             }
           } catch (JSONException e) {
             Log.e(TAG, Log.getStackTraceString(e));
@@ -150,6 +196,7 @@ public class QuizClientActivity extends Activity {
       catch (Exception e)
       {
         Log.d(TAG, "Error with socket on client " + mClient);
+        Log.e(TAG, Log.getStackTraceString(e));
         connected = false;
         setConnected(connected);
       }

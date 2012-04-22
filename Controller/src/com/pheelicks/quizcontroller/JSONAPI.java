@@ -19,5 +19,5 @@ public interface JSONAPI
   // Question format
   public static final String QUESTION = "question";
   public static final String ANSWERS = "answers";
-  public static final String ANSWER = "answers";
+  public static final String CORRECT_ANSWER = "correct_answer";
 }
