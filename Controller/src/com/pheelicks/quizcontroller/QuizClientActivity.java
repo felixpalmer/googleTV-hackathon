@@ -138,8 +138,7 @@ public class QuizClientActivity extends Activity {
 
   public void receivedMessageFromServer(int client, JSONObject message)
   {
-    String stringified = message.toString();
-    Log.d(TAG, "Received message from server: " + stringified);
+    Log.d(TAG, "Received message from server: " + message.toString());
 
     try
     {

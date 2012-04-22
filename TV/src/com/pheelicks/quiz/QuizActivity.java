@@ -31,6 +31,7 @@ public class QuizActivity extends Activity {
 
   private TextView mQuestionTextView;
   private List<Button> mOptionButtons;
+  private List<ParticipantView> mParticipantViews;
   private List<Question> mQuestions;
   private int mCurrentQuestion;
   private Handler mHandler = new Handler();
@@ -85,10 +86,15 @@ public class QuizActivity extends Activity {
   {
     mQuestionTextView = (TextView)findViewById(R.id.question_tv);
     mOptionButtons = new ArrayList<Button>(4);
+    mParticipantViews = new ArrayList<ParticipantView>(4);
     mOptionButtons.add((Button)findViewById(R.id.option_1));
     mOptionButtons.add((Button)findViewById(R.id.option_2));
     mOptionButtons.add((Button)findViewById(R.id.option_3));
     mOptionButtons.add((Button)findViewById(R.id.option_4));
+    mParticipantViews.add((ParticipantView)findViewById(R.id.participant_1));
+    mParticipantViews.add((ParticipantView)findViewById(R.id.participant_2));
+    mParticipantViews.add((ParticipantView)findViewById(R.id.participant_3));
+    mParticipantViews.add((ParticipantView)findViewById(R.id.participant_4));
   }
 
   private void displayQuestion(Question q)
@@ -138,6 +144,14 @@ public class QuizActivity extends Activity {
     sendMessageToClient(client, JSONMessages.newQuestion(q));
   }
 
+  public void sendQuestionToAllClients(Question q)
+  {
+    for(int c = 0; c < MAX_CLIENTS; c++)
+    {
+      sendMessageToClient(c, JSONMessages.newQuestion(q));
+    }
+  }
+
   // Use methods here to send/receive message to/from clients
   public void sendMessageToClient(int client, JSONObject message)
   {
@@ -149,10 +163,72 @@ public class QuizActivity extends Activity {
     mServerThreads.get(client).sendMessageToClient(message);
   }
 
-  public void receivedMessageFromClient(int client, JSONObject message)
+  public void receivedMessageFromClient(final int client, JSONObject message)
   {
     Log.d(TAG, "Received message from client " + client + ": " + message.toString());
-//    serverStatus.setText("Got message: " + message.toString());
+
+    try
+    {
+      String msgType = message.getString(JSONAPI.MSG_TYPE);
+
+      if(JSONAPI.POST_ANSWER.equalsIgnoreCase(msgType))
+      {
+        Log.d(TAG, "Got answer to question");
+        Question q = new Question(message.getJSONObject(JSONAPI.MSG_VALUE));
+        Question displayedQuestion = mQuestions.get(mCurrentQuestion);
+        if(q.title.equalsIgnoreCase(displayedQuestion.title))
+        {
+          // Answered the correct question, check if answer if right
+          if(q.correctAnswer.equalsIgnoreCase(displayedQuestion.correctAnswer))
+          {
+            // Correct answer!
+            Log.d(TAG, "Answer is correct");
+            runOnUiThread(new Runnable()
+            {
+              @Override
+              public void run()
+              {
+
+                mParticipantViews.get(client).addScore(10);
+              }
+            });
+
+          }
+          else
+          {
+            Log.d(TAG, "Answer is wrong");
+          }
+
+          // TODO, change - we want to wait for all answers
+          mCurrentQuestion =  (mCurrentQuestion + 1) % mQuestions.size();
+          Log.d(TAG, "Next question: " + mCurrentQuestion);
+          sendQuestionToAllClients(mQuestions.get(mCurrentQuestion));
+          runOnUiThread(new Runnable()
+          {
+            @Override
+            public void run()
+            {
+              displayQuestion(mQuestions.get(mCurrentQuestion));
+            }
+          });
+        }
+        else
+        {
+          // Answer posted for non-relavant q, probably too late, just ignore
+          Log.d(TAG, "Answer is to old question, ignoring...");
+        }
+      }
+      else
+      {
+        Log.w(TAG, "Received unknown message type from server: " + msgType);
+      }
+
+    }
+    catch (JSONException e)
+    {
+      Log.e(TAG, Log.getStackTraceString(e));
+    }
+
   }
 
   // Server code

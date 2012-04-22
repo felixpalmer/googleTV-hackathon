@@ -102,28 +102,28 @@
             android:padding="8dp" >
 
             <com.pheelicks.quiz.ParticipantView
-                android:id="@+id/pariticipant_1"
+                android:id="@+id/participant_1"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.25" >
             </com.pheelicks.quiz.ParticipantView>
 
             <com.pheelicks.quiz.ParticipantView
-                android:id="@+id/pariticipant_2"
+                android:id="@+id/participant_2"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.25" >
             </com.pheelicks.quiz.ParticipantView>
 
             <com.pheelicks.quiz.ParticipantView
-                android:id="@+id/pariticipant_3"
+                android:id="@+id/participant_3"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.25" >
             </com.pheelicks.quiz.ParticipantView>
 
             <com.pheelicks.quiz.ParticipantView
-                android:id="@+id/pariticipant_4"
+                android:id="@+id/participant_4"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.25" >
