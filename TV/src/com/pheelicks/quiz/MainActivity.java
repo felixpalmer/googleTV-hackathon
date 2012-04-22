@@ -198,10 +198,12 @@ public class MainActivity extends Activity {
           while (true) {
             // listen for incoming clients
             Socket client = serverSocket.accept();
+            mOutWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
+            sendMessageToClient(JSONMessages.OK());
             mHandler.post(new Runnable() {
               @Override
               public void run() {
-                serverStatus.setText("Connected.");
+                serverStatus.setText("Client " + mClient + "  connected.");
               }
             });
 
