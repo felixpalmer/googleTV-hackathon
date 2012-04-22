@@ -109,6 +109,12 @@ public class QuizActivity extends Activity {
     mParticipantViews.add((ParticipantView)findViewById(R.id.participant_4));
     mCountdownTextView = (TextView)findViewById(R.id.countdown_tv);
     mImageView = (ImageView)findViewById(R.id.image);
+
+    // For now, just hack in some names
+    mParticipantViews.get(0).setName("Felix");
+    mParticipantViews.get(1).setName("Kent");
+    mParticipantViews.get(2).setName("Stephan");
+    mParticipantViews.get(3).setName("Veda");
   }
 
   private void displayQuestion(final Question q)
