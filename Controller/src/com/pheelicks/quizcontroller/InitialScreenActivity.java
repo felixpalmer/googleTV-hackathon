@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +21,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-public class QuizClientActivity extends Activity {
+public class InitialScreenActivity extends Activity {
   private static final String TAG = "QuizClientActivity";
 
   private static final String SERVER_IP = "192.168.51.177";
@@ -33,26 +34,20 @@ public class QuizClientActivity extends Activity {
 
   private Button mConnectButton;
   private TextView mQuestionTextView;
-  private RadioButton mAnswer1Button;
-  private RadioButton mAnswer2Button;
-  private RadioButton mAnswer3Button;
-  private RadioButton mAnswer4Button;
+  private View mProgressIcon;
 
-  private Question mCurrentQuestion;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.quizclient);
+    setContentView(R.layout.initialscreen);
 
     Log.i(TAG, "Started client " + CLIENT_ID);
 
     // Find views
-    mQuestionTextView = (TextView)findViewById(R.id.Question);
-    mAnswer1Button = (RadioButton)findViewById(R.id.Answer1);
-    mAnswer2Button = (RadioButton)findViewById(R.id.Answer2);
-    mAnswer3Button = (RadioButton)findViewById(R.id.Answer3);
-    mAnswer4Button = (RadioButton)findViewById(R.id.Answer4);
+    mConnectButton = (Button)findViewById(R.id.connect_btn);
+  //  mProgressIcon = (Button)findViewById(R.id.progressBar1);
+
   }
 
   public void connectPressed(View view)
@@ -73,59 +68,24 @@ public class QuizClientActivity extends Activity {
       {
         if(connected)
         {
-//          mConnectButton.setVisibility(View.GONE);
+            Intent intent = new Intent(getBaseContext(), QuizClientActivity.class); 
+            startActivity(intent);
+            
+            mConnectButton.setVisibility(View.INVISIBLE);
+            mProgressIcon.setVisibility(View.VISIBLE);
         }
         else
         {
-          finish();
-//          mConnectButton.setVisibility(View.VISIBLE);
+          mConnectButton.setVisibility(View.VISIBLE);
+          mProgressIcon.setVisibility(View.INVISIBLE);
         }
       }
     });
   }
 
-  private void updateWithQuestion(Question question)
-  {
-    mCurrentQuestion = question;
-    mQuestionTextView.setText(question.title);
-    mAnswer1Button.setText(question.answers.get(0));
-    mAnswer2Button.setText(question.answers.get(1));
-    mAnswer3Button.setText(question.answers.get(2));
-    mAnswer4Button.setText(question.answers.get(3));
 
-    uncheckAll();
-  }
 
-  private void uncheckAll() {
-    uncheckAllExcept(null);
-  }
 
-  private void uncheckAllExcept(RadioButton r) {
-    //Log.d(TAG, "Unchecking");
-    RadioButton[] buttons = new RadioButton[4];
-    buttons[0] = mAnswer1Button;
-    buttons[1] = mAnswer2Button;
-    buttons[2] = mAnswer3Button;
-    buttons[3] = mAnswer4Button;
-    for (int i = 0; i < buttons.length; i++) {
-      if (r == buttons[i]) {
-        r.setChecked(true);
-      }
-      else {
-        buttons[i].setChecked(false);
-      }
-    }
-  }
-
-  public void answerPressed(View v)
-  {
-    String chosenAnswer = (String)((RadioButton)v).getText();
-    mCurrentQuestion.correctAnswer = chosenAnswer;
-    //((RadioButton)v).toggle();
-    uncheckAllExcept((RadioButton)v);
-    Log.d(TAG, "Selected = " + ((Button)v).isSelected());
-    sendMessageToServer(CLIENT_ID, JSONMessages.postAnswer(mCurrentQuestion));
-  }
 
   // Use methods here to send/receive message to/from server
   public void sendMessageToServer(int client, JSONObject message)
@@ -156,9 +116,7 @@ public class QuizClientActivity extends Activity {
 
       if(JSONAPI.NEW_QUESTION.equalsIgnoreCase(msgType))
       {
-        Log.d(TAG, "Got new question");
-        Question q = new Question(message.getJSONObject(JSONAPI.MSG_VALUE));
-        updateWithQuestion(q);
+
       }
       else
       {
