@@ -35,8 +35,9 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">3</item>
-        <item name="android:textSize">25dp</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
-    </style>
+        <item name="android:text">@string/connecting</item>
+        </style>
 
 </resources>
