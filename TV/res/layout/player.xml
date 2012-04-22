@@ -7,16 +7,16 @@
 
     <ProgressBar
         android:id="@+id/connecting_progress"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="center_vertical"
         android:indeterminateOnly="true" >
     </ProgressBar>
 
     <ImageView
         android:id="@+id/connecting_check_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="48dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/checkmark" >
     </ImageView>

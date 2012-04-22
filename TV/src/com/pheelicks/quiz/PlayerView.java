@@ -15,7 +15,7 @@ public class PlayerView extends LinearLayout
   private ProgressBar mProgressBar;
   private ImageView mCheckImage;
   private TextView mNameTextView;
-  private String mName;
+  private Player mPlayer;
 
   public PlayerView(Context context)
   {
@@ -38,7 +38,6 @@ public class PlayerView extends LinearLayout
     mProgressBar = (ProgressBar)findViewById(R.id.connecting_progress);
     mCheckImage = (ImageView)findViewById(R.id.connecting_check_image);
     mNameTextView = (TextView)findViewById(R.id.connecting_text);
-    mName = "";
     setConnecting(true);
   }
 
@@ -54,12 +53,13 @@ public class PlayerView extends LinearLayout
     {
       mProgressBar.setVisibility(View.GONE);
       mCheckImage.setVisibility(View.VISIBLE);
-      mNameTextView.setText(mName);
+      mNameTextView.setText(mPlayer.name == null ? "" : mPlayer.name);
     }
   }
 
-  public void setName(String name)
+  public void setPlayer(Player player)
   {
-    mName = name;
+    mPlayer = player;
+    setConnecting(false);
   }
 }

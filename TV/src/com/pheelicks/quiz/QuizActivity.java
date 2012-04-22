@@ -13,7 +13,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,12 +43,14 @@ public class QuizActivity extends Activity {
   private TextView mQuestionTextView;
   private List<Button> mOptionButtons;
   private List<ParticipantView> mParticipantViews;
+  private Set<Player> mPlayers;
   private List<PlayerView> mPlayerViews;
   private List<Question> mQuestions;
   private TextView mCountdownTextView;
   private ImageView mImageView;
   private LinearLayout mHomeScreen;
 
+  // For now, just hack in some names
   private static final String[] NAMES = {"Felix", "Kent", "Stephan", "Veda"};
 
   private int mCurrentQuestion;
@@ -75,6 +79,7 @@ public class QuizActivity extends Activity {
 
     Log.d(TAG, "Started TV quiz");
     findUIElements();
+    mPlayers = new HashSet<Player>(4);
     mQuestions = loadQuestions();
     if(mQuestions == null)
     {
@@ -121,23 +126,20 @@ public class QuizActivity extends Activity {
     mCountdownTextView = (TextView)findViewById(R.id.countdown_tv);
     mImageView = (ImageView)findViewById(R.id.image);
     mHomeScreen = (LinearLayout)findViewById(R.id.home_screen);
-
-    // For now, just hack in some names
-    for(int p = 0; p < MAX_CLIENTS; p++)
-    {
-      mParticipantViews.get(p).setName(NAMES[p]);
-    }
   }
 
-  public void playerConnected(final int player)
+  public void playerConnected(final int position)
   {
     runOnUiThread(new Runnable()
     {
       @Override
       public void run()
       {
-        mPlayerViews.get(player).setName(NAMES[player]);
-        mPlayerViews.get(player).setConnecting(false);
+        Player player = new Player();
+        player.name = NAMES[position];
+        mPlayers.add(player);
+        mPlayerViews.get(position).setPlayer(player);
+        mParticipantViews.get(position).setPlayer(player);
       }
     });
   }
@@ -224,6 +226,12 @@ public class QuizActivity extends Activity {
       mCountdownTextView.setText(String.format("0:%02d", timeLeft));
       if(timeLeft <= 0)
       {
+        // Make sure clock is at zero
+        mCountdownTextView.setText("0:00");
+
+        // Reveal scores
+
+
         moveToNextQuestion();
         mQuestionStartTime = System.currentTimeMillis();
       }

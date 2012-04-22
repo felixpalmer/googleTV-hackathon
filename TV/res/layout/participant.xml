@@ -13,10 +13,11 @@
         style="@style/QuestionText"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="25dp"
         android:layout_weight="0.75"
         android:gravity="center_vertical"
-        android:layout_marginLeft="25dp"
-        android:textSize="20dp" >
+        android:textSize="20dp"
+        android:text="@string/join" >
     </TextView>
 
     <TextView
@@ -29,4 +30,14 @@
         android:gravity="center"
         android:textSize="28dp" >
     </TextView>
+
+    <ImageView
+        android:id="@+id/choice_iv"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="5dp"
+        android:layout_weight="0.25"
+        android:gravity="center" >
+    </ImageView>
+
 </LinearLayout>
